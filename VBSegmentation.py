@@ -161,7 +161,7 @@ class Mesh(object):
                             shading='flat',
                             mode='triangles')
         view.add(mesh)
-
+        print 'here'
         vispy.app.run()
 
 class Volume(object):
@@ -270,9 +270,7 @@ def main():
     # First, load the mean model and the 3D Dicom data
     meanMesh = loadMesh('meanmesh','meshinfo')
     dicomImage = loadDICOM('dicomdir')
-
-    print meanMesh
-    print dicomImage
+    print meanMesh.nv
 
     # show the mesh and 3D image in the same window
     meanMesh.show()
