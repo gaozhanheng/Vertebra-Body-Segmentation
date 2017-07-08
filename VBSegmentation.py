@@ -32,8 +32,7 @@ from vispy.gloo import wrappers
 #     print 'no openmesh module. using meshio to save mesh (only support .off files)'
 import meshio as openmesh
 
-import time
-from functools import wraps
+from utilities import fn_timer
 import re
 
 # print wrappers.get_current_canvas()
@@ -70,31 +69,7 @@ def myPrint(filename,content,mode = 'a'):
         f.writelines(content)
         f.writelines('\n')
 
-def fn_timer(function):
-    @wraps(function)
-    def function_timer(*args, **kwargs):
-        t0 = time.time()
-        result = function(*args, **kwargs)
-        t1 = time.time()
-        totaltime = t1 - t0
-        if totaltime < 60:
-            print ("Total time running %s: %s seconds" %
-                (function.func_name, str(totaltime))
-                )
-        elif totaltime < 3600:
-            print ("Total time running %s: %s minutes" %
-               (function.func_name, str(totaltime / 60.))
-               )
-        elif totaltime < 3600 * 24:
-            print ("Total time running %s: %s hours and %s minutes" %
-               (function.func_name, str(totaltime / 3600),str((totaltime % 3600) / 60.))
-               )
-        else:
-            print ("Total time running %s: %s days,%s hours, and %s minutes" %
-               (function.func_name, str(totaltime / (3600 * 24)),str((totaltime % (3600 * 24)) / 3600),str((totaltime % 3600) / 60.))
-               )
-        return result
-    return function_timer
+
 
 class Mesh(object):
     ''' Class to represet a 3D triangular mesh. nv and nf are the number of vertices and faces of the mesh, verts and
