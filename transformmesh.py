@@ -1,7 +1,9 @@
 import meshio
 import numpy as np
 
-
+'''
+We can also use functions in module vispy.util.transform to generate the transformation matrices easily
+'''
 
 filename = './Data/reg1.off'
 
@@ -23,9 +25,14 @@ verts4 = verts4.transpose()
 
 transformMatrix = np.matrix('1 0 0 0;0 1 0 0 ;0 0 1 0; 0 0 0 1')
 
-translateZ_m10 = np.matrix('1 0 0 0; 0 1 0 0; 0 0 1 -10; 0 0 0 1')
+translateZ_m10 = np.matrix('1 0 0 200; 0 1 0 200; 0 0 1 1000; 0 0 0 1')
 
-transformMatrix *= translateZ_m10
+scale_0p1 = np.matrix('1 0 0 0;0 1 0 0; 0 0 1 0; 0 0 0 1')
+
+# this way,  the scale is firstly applied and the translation is applied secondly,
+# both are applied TO THE POINTS  and according to the ORIGINAL coordinate system.
+transformMatrix = transformMatrix * translateZ_m10 # note: it's not right if use *=
+transformMatrix = transformMatrix * scale_0p1
 
 verts4 = transformMatrix * verts4
 verts4 = verts4.transpose()
@@ -41,6 +48,8 @@ for v in verts4:
 
 print 'real output'
 print verts
+
+meshio.writeOff('./Data/transformed_reg1.off',verts,faces)
 
 
 

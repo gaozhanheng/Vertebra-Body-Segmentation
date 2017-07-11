@@ -4,7 +4,9 @@
 '''
 input 3D Dicom images containing spine, this code will segmente all the vertebra bodies
 '''
-import sys,os,shutil,getopt
+import sys,os,shutil,getopt,time
+# import vtk
+import copy
 from PIL import Image
 import math
 import numpy as np
@@ -24,6 +26,7 @@ from vispy.color import *
 from vispy import io,gloo
 from vispy.scene import visuals
 from vispy.gloo import wrappers
+
 # from vispy import visuals
 
 # try:
@@ -80,9 +83,21 @@ class Mesh(object):
         self._verts = np.empty(shape = (self._nv,3),dtype=np.float32)
         self._faces = np.empty(shape = (self._nf,3),dtype=np.int32)
 
+        self._mesh = None # to store the current visual mesh so that we only add it into the scene once
+        self._outline = None
+
         # the centers of the low and upper endplates of the vb mesh
         self._centerLowerEndplate = np.zeros((1,3),dtype=np.float32)
         self._centerUpperEndplate = np.zeros((1,3),dtype=np.float32)
+
+        self._phim = None # the \phi m in SSM model. a list, each element is an nv * 3 ndarray
+
+    def __copy__(self):
+        mesh = Mesh()
+        mesh.verts = self._verts.copy()
+        mesh.faces = self._faces.copy()
+        mesh.phim = copy.deepcopy(self._phim)
+        return mesh
 
     @property
     def nv(self):
@@ -101,6 +116,7 @@ class Mesh(object):
             return ValueError('Invalid input verts: it must be of shape [x][3]')
         self._verts = verts
         self._nv = verts.shape[0]
+        self._updateMesh()
 
     @property
     def faces(self):
@@ -111,6 +127,14 @@ class Mesh(object):
             return ValueError('Invalid input faces: it must be of shape [x][3]')
         self._faces = faces
         self._nf = faces.shape[0]
+        self._updateMesh()
+
+    @property
+    def phim(self):
+        return self._phim
+    @phim.setter
+    def phim(self,phim):
+        self._phim = phim
 
     @property
     def centerLowerEndplate(self):
@@ -126,8 +150,7 @@ class Mesh(object):
     def centerUpperEndplate(self,c):
         self._centerUpperEndplate = c
 
-    def show(self,withoutline=True):
-        '''Show current mesh and the centers of lower and upper endplate in current view'''
+    def _updateMesh(self):
         # add mesh data into the scene
         # Vertices positions
         # p = np.array([[1, 1, 1], [-1, 1, 1], [-1, -1, 1], [1, -1, 1],
@@ -167,31 +190,41 @@ class Mesh(object):
                             color=color_mesh,
                             shading='flat',
                             mode='triangles')
-        view.add(mesh)
 
-        if withoutline:
+        self._mesh = mesh
+
+        # outline_p = []
+        # for face in faces:
+        #     outline_p.append(p[face[0]])
+        #     outline_p.append(p[face[1]])
+        #     outline_p.append(p[face[1]])
+        #     outline_p.append(p[face[2]])
+        #     outline_p.append(p[face[2]])
+        #     outline_p.append(p[face[0]])
+        # outline_p = np.array(outline_p)
+        #
+        # outline = visuals.Line(pos=outline_p, color=(0.1, 0.1, 0.1, 1.), width=1,
+        #                        connect='segments', method='gl', antialias=False)
+        # self._outline = outline
+
+    def show(self,withOutline=False):
+        view.add(self._mesh)
+        if withOutline:
             GLContext.set_polygon_offset(1, 1)
-            mesh.update_gl_state(**{'polygon_offset_fill': True})
+            self._mesh.update_gl_state(**{'polygon_offset_fill': True})
 
-            outline_p = []
-            for face in faces:
-                outline_p.append(p[face[0]])
-                outline_p.append(p[face[1]])
-                outline_p.append(p[face[1]])
-                outline_p.append(p[face[2]])
-                outline_p.append(p[face[2]])
-                outline_p.append(p[face[0]])
-            outline_p = np.array(outline_p)
-
-            outline = visuals.Line(pos=outline_p, color=(0.1, 0.1, 0.1, 1.), width=1,
-                 connect='segments', method='gl', antialias=False)
-            view.add(outline)
+            view.add(self._outline)
 
         # cube = visuals.Cube(edge_color = [1.0,0,0,1])
         # view.add(cube)
 
-        view.camera.set_range() # similar to viewAll in Coin3D
-        # vispy.app.run()
+        view.camera.set_range()  # similar to viewAll in Coin3D
+        # vispy.app.run
+
+    def hide(self):
+        self._mesh.remove_parent(view.scene)
+        if self._outline in view.scene.children:
+            self._outline.remove_parent(view.scene)
 
 class Volume(object):
     ''' Class to represent a 3D Dicom object. numX, numY and numZ are the number of pixels in each directions.
@@ -204,6 +237,8 @@ class Volume(object):
         self._spacingSlice = 0. # the spacing along each direction
 
         self._pixel_array = None # the copy of pixel_array of dicom files read by pydicom
+        self._gradient_array = None # the gradient of the pixel array for computing E_I
+        self._hessian_array = None # this is used for the same as gradient array
 
     @property
     def spacingX(self):
@@ -211,22 +246,36 @@ class Volume(object):
     @spacingX.setter
     def spacingX(self,s):
         self._spacingX = s
+        self._updateVolume()
     @property
     def spacingY(self):
         return self._spacingY
     @spacingY.setter
     def spacingY(self,s):
         self._spacingY = s
+        self._updateVolume()
     @property
     def spacingSlice(self):
         return self._spacingSlice
     @spacingSlice.setter
     def spacingSlice(self,s):
         self._spacingSlice = s
+        self._updateVolume()
 
     @property
     def pixelArray(self):
         return self._pixel_array
+    @pixelArray.setter
+    def pixelArray(self,voldata):
+        self._pixel_array = voldata
+        self._updateVolume()
+
+    @property
+    def gradientArray(self):
+        return self._gradient_array
+    @property
+    def hessianArray(self):
+        return self._hessian_array
 
     # the first dim must be the slice, while the second and third dim are the x and y pixels
     @property
@@ -236,10 +285,19 @@ class Volume(object):
     def dataShape(self,shape):
         self._pixel_array = np.zeros(shape=shape)
 
-    def setPixelArrayData(self,iSlice,data):
-        self._pixel_array[iSlice] = data
-    def setPixelArrayData(self,voldata):
-        self._pixel_array = voldata
+    def _updateVolume(self):
+        '''
+        First, compute the gradient of the pixel volume
+        :return:
+        '''
+        # gradientArray = np.gradient(self._pixel_array)
+        # self._gradient_array = gradientArray
+        #
+        # hessianX = np.gradient(gradientArray[0]) # \over{\partial^2 f,\partial x^2},\over{\partial f,
+        #                                         #  \partial x \partial y},\over{\partial f, \partial x \partial z}
+        # hessianY = np.gradient(gradientArray[1])
+        # hessianZ = np.gradient(gradientArray[2])
+        # self._hessian_array = [hessianX,hessianY,hessianZ]
 
     def show(self,clim=None,cmap = None):
         # add a volume into the scene
@@ -258,8 +316,9 @@ class Volume(object):
         cmap = cmap or 'grays'
         volume = visuals.Volume(vol_data, clim=clim,cmap = cmap,method = 'mip',relative_step_size=0.8)
 
-
         view.add(volume)
+
+        view.camera.set_range()  # similar to viewAll in Coin3D
 
 @fn_timer
 def loadMesh(meshName,meshInfo):
@@ -274,6 +333,11 @@ def loadMesh(meshName,meshInfo):
     # for now, the centers of lower and upper end plate are manually input
     mesh.centerUpperEndplate = np.array(meshInfo['centerUpperEndplate'])
     mesh.centerLowerEndplate = np.array(meshInfo['centerLowerEndplate'])
+
+    phim = []
+    for k in range(1):
+        phim.append(np.ones(shape=(mesh.nv * 3)).reshape(mesh.nv,3))
+    mesh.phim = phim
 
     return mesh
 
@@ -300,8 +364,8 @@ def loadDICOM(dicominfo):
             print filename,'is not a file'
         ds = dicom.read_file(filename)
 
-        print '='*20
-        print dcm
+        # print '='*20
+        # print dcm
         if not ds.SeriesNumber == 5:
             # print 'series number',ds.SeriesNumber
             print 'skip dicom file: %s' % dcm
@@ -317,7 +381,7 @@ def loadDICOM(dicominfo):
         # print 'window width:',ds.WindowWidth
         # print 'window center width explanation:',ds.WindowCenterWidthExplanation
         # print 'image type:',ds.ImageType
-        print 'image position:',ds.ImagePositionPatient
+        # print 'image position:',ds.ImagePositionPatient
 
         k = k + 1
         if k == 0:
@@ -327,7 +391,7 @@ def loadDICOM(dicominfo):
 
     vol_data = np.array(vol_data)
     # vol_data = np.flipud(np.rollaxis(vol_data, 1))
-    image.setPixelArrayData(vol_data)
+    image.pixelArray = vol_data
     print '='*20
     print '%s slice loaded' % k
     print 'shape of image:',image.dataShape
@@ -344,7 +408,140 @@ def initMeshInDicom(mesh,volume):
 @fn_timer
 def OptimizeMesh(mesh,volume):
     ''' Optimize the mesh.'''
-    pass
+    S_I = copy.copy(mesh)
+    S_B = copy.copy(mesh)
+    S_SSM = copy.copy(mesh)
+
+    def OptimizeSI(): # more details about scipy.optimization please refer to the optimize __init__.py
+        nv = S_I.nv / 100 # the number of vertices used to test the optimization efficiency
+        print 'number of vertices used:',nv
+
+        t1 = time.time()
+        meshData = vispy.geometry.MeshData(vertices=S_I.verts, faces=mesh.faces)  # the faces are all the same
+        normals = meshData.get_vertex_normals()
+        t2 = time.time()
+        print 'time of computing mesh normals:',t2 - t1
+
+        def E_I(SIVerts):
+            omega1 = 1.
+            omega2 = 1.
+
+
+
+            ei = 0.
+            pixelarray = volume.pixelArray
+            gradientArray = volume.gradientArray
+            k = 0
+            # sum all the values
+            gradientX = gradientArray[0]
+            gradientY = gradientArray[1]
+            gradientZ = gradientArray[2]
+            dataShape = pixelarray.shape
+            for v in SIVerts:
+                x = int(v[0])
+                y = int(v[1])
+                z = int(v[2])
+                if x < 0 or y < 0 or z < 0 or x >= dataShape[0] or y >= dataShape[1] or z >= dataShape[2]:
+                    ei += 9999
+                else:
+                    v =  omega1 * pixelarray[x][y][z] + omega2 * (normals[k].dot
+                    (np.array([gradientX[x][y][z],gradientY[x][y][z],gradientZ[x][y][z]])))
+
+                    ei += v
+                k += 1
+
+            # print ei
+            return ei
+
+        def E_I_B(SIVerts):
+            verts_SB = S_B.verts[0:nv]
+            verts_SI = SIVerts
+
+            verts_BI = verts_SB - verts_SI
+            # return np.sqrt(np.sum(verts_BI * verts_BI, axis=1))
+            return np.sum(verts_BI * verts_BI) / 2.
+
+        omega_BI = 1.
+        def fun(SIVerts):
+            verts = SIVerts.reshape((nv,3))
+            v_BI = omega_BI * E_I_B(verts)
+            # v_EI = E_I(verts)
+            v = v_BI # + v_EI
+            return v
+        def gradient(SIVerts):
+            verts = SIVerts.reshape((nv, 3))
+        def callback(xk):
+            verts = xk -S_B.verts[0:nv].reshape((nv * 3,))
+            verts = verts * verts
+            print 'sum:',np.sum(verts)
+
+        # res = opt.minimize(fun,S_I.verts.reshape((nv * 3,)),method = None,options={'maxiter':1,'disp':True})
+        # l-bfgs-b can solve, no crash down. However, big errors.
+        res = opt.minimize(fun, np.ones(shape = (nv * 3,)), method='TNC',jac=False,
+                           callback=callback,options={'maxiter': 100, 'disp': True})
+        x = res['x'].reshape((nv,3))
+        print 'x:',x
+        print 'success?',res['success']
+        print 'message:',res['message']
+
+        S_I.verts = x
+
+        print mesh.verts
+
+    def OptimizeSSM():
+        '''
+        repeat optimize transformation and SSM parameters until converge on S_SSM
+        :return:
+        '''
+        phim = mesh.phim
+        def E_SSM(a, R, c,b):  # translation, rotation, scale, and SSM parameters
+            verts_SB = S_B.verts
+            verts_SSM = mesh.verts
+            if not len(phim) == len(b):
+                raise ValueError('Length of b(%s) must equal lenght of $\phi$(%s):',len(b),len(phim))
+
+            k = 0
+            for bm in b:
+                verts_SSM += phim[k] * bm
+                k += 1
+
+            verts_SSM = R.dot(mesh.verts) * a + c # mesh is the mean mesh
+
+
+            verts_BSSM = verts_SB - verts_SSM
+            return np.sqrt(np.sum(verts_BSSM * verts_BSSM, axis=1))
+        a = 0
+        R = np.matrix(['1 0 0;0 1 0; 0 0 1'])
+        c = np.array([0,0,0])
+        b = np.zeros(len(phim))
+        def fun_trans(a,R,c):
+            E_SSM(a,R,c,b)
+        def fun_SSMP(b):
+            E_SSM(a,R,c,b)
+
+        while 1:
+            COBYLA
+            opt.minimize()
+
+    def OptimizeSB():
+        def E_I_B(SBVerts):
+            pass
+
+        def E_SSM(SBVerts):
+            pass
+
+        def E_SIM(SBVerts):
+            pass
+
+        def fun(S_B):
+            pass
+        opt.minimize(fun,S_B,method = 'bfgs',options={'maxiter':5})
+
+    #repeat optimization until converge
+    OptimizeSI()
+    openmesh.writeOff('./Data/registered_reg1.off',S_B.verts,S_B.faces)
+
+    return S_B
 
 def addPointCloud():
     ### this is the example code of vispy
@@ -367,7 +564,7 @@ def addPointCloud():
     scatter.set_data(pos, symbol='o', edge_color=None, face_color=(1, 1, 1, .5), size=5)
     view.add(scatter)
 
-    vispy.app.run()
+    # vispy.app.run()
 
 def getColorMaps(mapName,withgradientopacity=True):
     import colormaps
@@ -399,7 +596,7 @@ def main():
 
 
     # First, load the mean model and the 3D Dicom data
-    meshinfo = {'filename':'./Data/reg1.off','centerLowerEndplate':[0,0,0],'centerUpperEndplate':[0,0,1]}
+    meshinfo = {'filename':'./Data/transformed_reg1.off','centerLowerEndplate':[0,0,0],'centerUpperEndplate':[0,0,1]}
     meanMesh = loadMesh('meanmesh',meshinfo)
     dicominfo = {'dirname':'/Users/mac/Downloads/Dicom Data/2585255-profYu','centerLowerEndplate':[0,0,0],'centerUpperEndplate':[0,0,1]}
     dicomImage = loadDICOM(dicominfo)
@@ -409,11 +606,19 @@ def main():
     ct_aaa = getColorMaps('ct_aaa')
     dicomImage.show(cmap = ct_aaa)
 
+    # view.add(visuals.Cube())
+    meanMesh.hide()
+
     # Second, initialize the mesh to the approximate position in the image
     initMeshInDicom(meanMesh,dicomImage)
 
     # Third, Optimize the mesh
-    OptimizeMesh(meanMesh,dicomImage)
+    S_B = OptimizeMesh(meanMesh,dicomImage)
+
+    S_B.show()
+
+
+
 
     vispy.app.run()
 
