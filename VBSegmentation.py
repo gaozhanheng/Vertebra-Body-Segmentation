@@ -4,7 +4,7 @@
 '''
 input 3D Dicom images containing spine, this code will segmente all the vertebra bodies
 '''
-import sys,os,shutil,getopt,time
+import sys,os,shutil,getopt,time,random
 # import vtk
 import copy
 from PIL import Image
@@ -12,6 +12,7 @@ import math
 import numpy as np
 import scipy
 from scipy import optimize as opt,io,linalg,ndimage,misc,sparse,interpolate
+from scipy.interpolate import UnivariateSpline,BivariateSpline,BSpline
 from scipy.sparse import linalg as splinalg
 import skimage
 from skimage import color,io,data,segmentation,img_as_ubyte,img_as_float,feature,\
@@ -34,6 +35,7 @@ from vispy.gloo import wrappers
 # except:
 #     print 'no openmesh module. using meshio to save mesh (only support .off files)'
 import meshio as openmesh
+import transformmesh
 
 from utilities import fn_timer
 import re
@@ -96,11 +98,11 @@ def getColorMaps(mapName,withgradientopacity=True):
     # controls[0] = 0.
     # controls[-1] = 1.
     colors[0][3] = 0.
-    colors[1][3] = 4./255
+    colors[1][3] = .0 #4./255
     colors[2][3] = 0.
-    colors[3][3] = 1./255
+    colors[3][3] = .0 #1./255
     colors[4][3] = 1.
-    colors[5][3] = 1./255
+    colors[5][3] = .0 #1./255
 
     cmap = Colormap(colors=colors)
 
@@ -251,6 +253,9 @@ class Mesh(object):
         #                        connect='segments', method='gl', antialias=False)
         # self._outline = outline
 
+    def updateMesh(self):
+        self._updateMesh()
+
     def show(self,withOutline=False):
         view.add(self._mesh)
         if withOutline:
@@ -290,21 +295,21 @@ class Volume(object):
     @spacingX.setter
     def spacingX(self,s):
         self._spacingX = s
-        self._updateVolume()
+        # self._updateVolume()
     @property
     def spacingY(self):
         return self._spacingY
     @spacingY.setter
     def spacingY(self,s):
         self._spacingY = s
-        self._updateVolume()
+        # self._updateVolume()
     @property
     def spacingSlice(self):
         return self._spacingSlice
     @spacingSlice.setter
     def spacingSlice(self,s):
         self._spacingSlice = s
-        self._updateVolume()
+        # self._updateVolume()
 
     @property
     def pixelArray(self):
@@ -334,13 +339,30 @@ class Volume(object):
         First, compute the gradient of the pixel volume
         :return:
         '''
-        gradientArray = np.gradient(self._pixel_array)
+
+
+        voldata = self.vol_data_forComp
+        # print 'data',voldata
+        gradientArray = np.gradient(voldata)
         self._gradient_array = gradientArray
-        #
-        hessianX = np.gradient(gradientArray[0]) # \over{\partial^2 f,\partial x^2},\over{\partial f,
-                                                #  \partial x \partial y},\over{\partial f, \partial x \partial z}
+        # print 'gradient',gradientArray[0],gradientArray[1],gradientArray[2]
+        print 'g',gradientArray
+
+        hessianX = np.gradient(gradientArray[0]) # \frac{\partial^2 f,\partial x^2},\frac{\partial f,
+                                                #  \partial x \partial y},\frac{\partial f, \partial x \partial z}
+        # print 'length',len(hessianX)
+        # print 'shape',hessianX[0].shape
+        # print 'hx',hessianX[0]
         hessianY = np.gradient(gradientArray[1])
         hessianZ = np.gradient(gradientArray[2])
+        # print 'hx',hessianX[0]
+
+        # a = hessianX[1] - hessianY[0]
+        # print 'xy:',a
+        # a = hessianX[2] - hessianZ[0]
+        # print 'xz:', a
+        # a = hessianY[2] - hessianZ[1]
+        # print 'yz:', a
         self._hessian_array = [hessianX,hessianY,hessianZ]
 
     def show(self,clim=None,cmap = None):
@@ -358,7 +380,7 @@ class Volume(object):
         # print vol_data.shape
         clim = clim or [-3024, 3071]
         cmap = cmap or 'grays'
-        volume = visuals.Volume(vol_data, clim=clim,cmap = cmap,method = 'mip',relative_step_size=0.8)
+        volume = visuals.Volume(vol_data, clim=clim,cmap = cmap,method = 'mip',relative_step_size=0.8,emulate_texture=False)
 
         view.add(volume)
 
@@ -402,6 +424,7 @@ def loadDICOM(dicominfo):
     image = Volume()
     vol_data = []
     k = 0
+    lastSliceLocation = 0
     for dcm in allDicoms:
         filename = dicomDir + '/%s' % dcm + '.dcm'
         if not os.path.isfile(filename):
@@ -412,7 +435,7 @@ def loadDICOM(dicominfo):
         # print dcm
         if not ds.SeriesNumber == 5:
             # print 'series number',ds.SeriesNumber
-            print 'skip dicom file: %s' % dcm
+            # print 'skip dicom file: %s' % dcm
             continue
 
         # print 'series number:', ds.SeriesNumber
@@ -427,20 +450,55 @@ def loadDICOM(dicominfo):
         # print 'image type:',ds.ImageType
         # print 'image position:',ds.ImagePositionPatient
 
-        k = k + 1
+        lastSliceLocation = ds.SliceLocation
+
         if k == 0:
             image.spacingX = ds.PixelSpacing[0]
             image.spacingY = ds.PixelSpacing[1]  # unit: mm
-        vol_data.append(ds.pixel_array)
 
-    vol_data = np.array(vol_data)
-    # vol_data = np.flipud(np.rollaxis(vol_data, 1))
+            image.imagePosition = ds.ImagePositionPatient # dynamic attribute
+            image.firstLocation = ds.SliceLocation # dynamic attribute
+            image.rescaleIntercept = ds.RescaleIntercept # this and the following one are
+            #  used for computing the real value of ct
+            image.rescaleSlope = ds.RescaleSlope
+            print 'ds0'
+            print ds
+        if k == 1:
+            print 'ds1'
+            print ds
+            z1 = ds.SliceLocation
+
+            image.spacingSlice = np.abs(image.firstLocation - z1)
+        k = k + 1
+        vol_data.append(np.flip(np.flip(ds.pixel_array,axis=0),axis=1).astype(np.float32))
+
+    vol_data = np.flip(vol_data, axis=0)
+    vol_data = ndimage.gaussian_filter(np.array(vol_data),sigma=3,order=1)
+    vol_data_forComp = np.rollaxis(np.rollaxis(vol_data.copy(),1),2)
+    # vol_data = vol_data_forComp
+
+    print 'shape of vol_data:',vol_data.shape
+    print 'shape of vol_data for computation:',vol_data_forComp.shape
+
+    # for x in range(vol_data.shape[0]):
+    #     for y in range(vol_data.shape[1]):
+    #         for z in range(vol_data.shape[2]):
+    #             if not vol_data[x][y][z] == vol_data_forComp[z][y][x]:
+    #                 print 'roll axis error:',x,y,z
+
+
+    image.vol_data_forComp = vol_data_forComp  # this is a dynamic attribute
+
     image.pixelArray = vol_data
+
+    image.imagePosition = np.array([0,0,0]) - image.imagePosition
+    image.imagePosition[2] = lastSliceLocation
     print '='*20
     print '%s slice loaded' % k
+    print 'min and max value in the volume:',np.min(vol_data),np.max(vol_data)
     print 'shape of image:',image.dataShape
-
-
+    print 'image position:',image.imagePosition
+    print 'image spacing:',image.spacingX,image.spacingY,image.spacingSlice
 
     return image
 
@@ -458,16 +516,51 @@ def OptimizeMesh(mesh,volume):
 
     def OptimizeSI(): # more details about scipy.optimization please refer to the optimize __init__.py
         nv = S_I.nv # the number of vertices used to test the optimization efficiency
-        print 'number of vertices used:',nv
+        # print 'number of vertices used:',nv
 
-        meshData = vispy.geometry.MeshData(vertices=S_I.verts, faces=mesh.faces)  # the faces are all the same
+        meshData = vispy.geometry.MeshData(vertices=S_B.verts, faces=mesh.faces)  # the faces are all the same
         normals = meshData.get_vertex_normals()
 
-        omega1 = 1.
-        omega2 = 1.
+
+        def showMeshAndNormal():
+            '''
+            To test if the normals is pointing from inside to outlide and if the ordering of the normals is right.
+            :return:
+            '''
+            m = visuals.Mesh(S_B.verts,mesh.faces)
+            l = visuals.Line()
+            view.add(m)
+            outline_p = []
+            k = 0
+            for v in S_B.verts:
+                outline_p.append(v)
+                outline_p.append(v + normals[k])
+                k += 1
+
+            outline_p = np.array(outline_p)
+
+            outline = visuals.Line(pos=outline_p, color=(0.1, 0.1, 0.1, 1.), width=1,
+                                   connect='segments', method='gl', antialias=False)
+            view.add(outline)
+            vispy.app.run()
+        # showMeshAndNormal()
+
+        def normalizeVec(vec):
+            '''
+
+            :param vec:
+            :return:
+            '''
+            mag = vec.dot(vec)
+            vec /= mag
+
+        omega1 = .1
+        omega2 = .9
         def E_I(SIVerts):
+            SIVerts = SIVerts.reshape((nv,3))
+
             ei = 0.
-            pixelarray = volume.pixelArray
+            pixelarray = volume.vol_data_forComp
             gradientArray = volume.gradientArray
             k = 0
             # sum all the values
@@ -481,31 +574,42 @@ def OptimizeMesh(mesh,volume):
                 z = int(v[2])
                 if x < 0 or y < 0 or z < 0 or x >= dataShape[0] or y >= dataShape[1] or z >= dataShape[2]:
                     ei += 9999
+                    print 'outside of volume data in E_I:',x,y,z
                 else:
-                    v =  omega1 * pixelarray[x][y][z] + omega2 * (normals[k].dot
-                    (np.array([gradientX[x][y][z],gradientY[x][y][z],gradientZ[x][y][z]])))
+                    vpixel = omega1 * pixelarray[x][y][z]
+                    gradient = np.array([gradientX[x][y][z],gradientY[x][y][z],gradientZ[x][y][z]])
+                    # normalizeVec(gradient)
+                    vgradient = omega2 * (normals[k].dot(gradient))
 
+                    v = vgradient  + vpixel
                     ei += v
                 k += 1
 
             # print ei
             return ei
         def gradient_EI(SIVerts):
-            pixelarray = volume.pixelArray
+            SIVerts = SIVerts.reshape((nv,3))
+
+            pixelarray = volume.vol_data_forComp
             gradientArray = volume.gradientArray
             hessianArray = volume.hessianArray
+
             gradientX = gradientArray[0]
             gradientY = gradientArray[1]
             gradientZ = gradientArray[2]
+
             hessianX = hessianArray[0]
             hessianY = hessianArray[1]
             hessianZ = hessianArray[2]
+
             hessianXx = hessianX[0]
             hessianXy = hessianX[1]
             hessianXz = hessianX[2]
+
             hessianYx = hessianY[0]
             hessianYy = hessianY[1]
             hessianYz = hessianY[2]
+
             hessianZx = hessianZ[0]
             hessianZy = hessianZ[1]
             hessianZz = hessianZ[2]
@@ -521,25 +625,44 @@ def OptimizeMesh(mesh,volume):
                     gx = 9999
                     gy = 9999
                     gz = 9999
+
+                    print 'outside of volume data in gradient_EI:', x, y, z
                 else:
-                    gx = omega1 * gradientX[x][y][z] + omega2 * (normals[k].dot
-                                                                 (np.array([hessianXx[x][y][z], hessianXy[x][y][z],
-                                                                            hessianXz[x][y][z]])))
-                    gy = omega1 * gradientY[x][y][z] + omega2 * (normals[k].dot
-                                                                 (np.array([hessianYx[x][y][z], hessianYy[x][y][z],
-                                                                            hessianYz[x][y][z]])))
-                    gz = omega1 * gradientZ[x][y][z] + omega2 * (normals[k].dot
-                                                                 (np.array([hessianZx[x][y][z], hessianZy[x][y][z],
-                                                                            hessianZz[x][y][z]])))
+                    gxpixel = omega1 * gradientX[x][y][z]
+                    hessian = np.array([hessianXx[x][y][z], hessianXy[x][y][z],hessianXz[x][y][z]])
+                    # normalizeVec(hessian)
+                    gxgradient = omega2 * (normals[k].dot(hessian))
+                    gx = gxgradient + gxpixel
+
+                    gypixel = omega1 * gradientY[x][y][z]
+                    hessian = np.array([hessianYx[x][y][z], hessianYy[x][y][z],hessianYz[x][y][z]])
+                    # normalizeVec(hessian)
+                    gygradient = omega2 * (normals[k].dot(hessian))
+                    gy = gygradient  + gypixel
+
+                    gzpixel = omega1 * gradientZ[x][y][z]
+                    hessian = np.array([hessianZx[x][y][z], hessianZy[x][y][z],hessianZz[x][y][z]])
+                    # normalizeVec(hessian)
+                    gzgradient = omega2 * (normals[k].dot(hessian))
+                    gz = gzgradient  + gzpixel
 
                 g.append(gx)
                 g.append(gy)
                 g.append(gz)
                 k += 1
 
-            return np.array(g).reshape((nv,3))
+            return np.array(g).reshape((nv * 3,))
+
+        checkGrad = False
+        # check the gradient computation using optimize.check_grad
+        if checkGrad:
+            print 'check gradient for EI in SI optimization....'
+            graderr = opt.check_grad(E_I,gradient_EI,S_I.verts.copy().reshape((nv * 3,)))
+            print 'graderr for EI when optimizing SI is:',graderr
 
         def E_I_B(SIVerts):
+            SIVerts = SIVerts.reshape((nv,3))
+
             verts_SB = S_B.verts[0:nv]
             verts_SI = SIVerts
 
@@ -547,38 +670,56 @@ def OptimizeMesh(mesh,volume):
             # return np.sqrt(np.sum(verts_BI * verts_BI, axis=1))
             return np.sum(verts_BI * verts_BI) / 2.
         def gradient_EIB(SIVerts):
+            SIVerts = SIVerts.reshape((nv,3))
+
             verts_SB = S_B.verts[0:nv]
             verts_SI = SIVerts
             verts_BI = verts_SI - verts_SB
-            return verts_BI
+            return verts_BI.reshape((nv * 3,))
 
-        omega_BI = 1.
+        if checkGrad:
+            print 'check gradient for EIB in SI optimization....'
+            graderr = opt.check_grad(E_I_B, gradient_EIB, S_I.verts.copy().reshape((nv * 3,)))
+            print 'graderr for EIB when optimizing SI is:', graderr
+
+        omega_EI = .8
+        omega_BI = .2
         def fun(SIVerts):
             verts = SIVerts.reshape((nv,3))
-            v_BI = omega_BI * E_I_B(verts)
-            v_EI = E_I(verts)
-            v = v_BI + v_EI
-            return v
+
+            e_BI = omega_BI * E_I_B(verts)
+            e_EI = omega_EI * E_I(verts)
+            # print 'BI:',e_BI
+            # print 'EI:',e_EI
+            e = e_EI + e_BI
+            return e
         def gradient(SIVerts):
             verts = SIVerts.reshape((nv, 3))
+
             g_BI = omega_BI * gradient_EIB(verts)
-            g_EI = gradient_EI(verts)
-            g = g_BI + g_EI
+            g_EI = omega_EI * gradient_EI(verts)
+            g = g_EI + g_BI
             g = g.reshape((nv * 3,))
             return g
-        def callback(xk):
-            verts = xk -S_B.verts[0:nv].reshape((nv * 3,))
-            verts = verts * verts
-            print 'sum:',np.sum(verts)
 
-        # res = opt.minimize(fun,S_I.verts.reshape((nv * 3,)),method = None,options={'maxiter':1,'disp':True})
+        if checkGrad:
+            print 'check gradient in SI optimization....'
+            graderr = opt.check_grad(fun, gradient, S_I.verts.copy().reshape((nv * 3,)))
+            print 'graderr when optimizing SI is:', graderr
+
+        def callback(xk):
+            verts = xk - S_B.verts[0:nv].reshape((nv * 3,))
+            verts = verts * verts
+
+        # res = opt.minimize(fun, S_B.verts.reshape((nv * 3,)), method='l-bfgs-b',jac=gradient,
+        #                    callback=callback,options={'maxiter': 100, 'disp': True})
         # l-bfgs-b,SLSQP, are OK. fastest is l-bfgs-b,
         #  with gradient (or even hessian) given, the computation efficiency
         # and accuracy are highly improved.
         # without any derivative information, we can choose: l-bfgs-b and SLSQP
         # with gradient, we can choose:CG,Newton-CG,l-bfgs-b,TNC,
         # with gradient and hessian, we can choose: dogleg and trust-cg (both not tested)
-        res = opt.minimize(fun, np.ones(shape = (nv * 3,)), method='l-bfgs-b',jac=gradient,
+        res = opt.minimize(fun, S_B.verts.reshape((nv * 3,)), args=(),method='l-bfgs-b',jac=gradient,
                            callback=callback,options={'maxiter': 100, 'disp': True})
         x = res['x'].reshape((nv,3))
         print 'x:',x
@@ -588,6 +729,8 @@ def OptimizeMesh(mesh,volume):
 
         S_I.verts = x
 
+        return x
+
     def OptimizeSSM():
         '''
         repeat optimize transformation and SSM parameters until converge on S_SSM
@@ -596,6 +739,7 @@ def OptimizeMesh(mesh,volume):
         phim = mesh.phim
         def updateSSM(a,R,c,b):
             verts_SSM = mesh.verts.copy() # mesh is the mean mesh
+
             if not len(phim) == len(b):
                 raise ValueError('Length of b(%s) must equal lenght of $\phi$(%s):', len(b), len(phim))
 
@@ -604,80 +748,232 @@ def OptimizeMesh(mesh,volume):
                 verts_SSM += phim[k] * bm
                 k += 1
 
-            verts_SSM = R.dot(verts_SSM.verts) * a + c  # mesh is the mean mesh
-            return verts_SSM
+            verts_SSM = verts_SSM.transpose()
+            verts_SSM = R.dot(verts_SSM) * a + c.reshape(3,1)  # mesh is the mean mesh
+            return np.array(verts_SSM.transpose())
         def E_SSM(a, R, c,b):  # translation, rotation, scale, and SSM parameters
             verts_SB = S_B.verts
-            verts_SSM = updateSSM(a,R,c,b)
+            verts_SSM = np.array(updateSSM(a,R,c,b))
 
             verts_BSSM = verts_SSM - verts_SB
-            return np.sqrt(np.sum(verts_BSSM * verts_BSSM, axis=1))
+            return np.sum(verts_BSSM * verts_BSSM) / 2.
 
         def fun_trans(vs,b=np.zeros(len(phim))):
             a = vs[0]
-            R = np.matrix(vs[1:10])
+            R = np.matrix(vs[1:10].reshape((3,3)))
             c = np.array(vs[10:13])
-            E_SSM(a,R,c,b)
+            return E_SSM(a,R,c,b)
         def fun_SSMP(b,a=0,R=np.matrix('1 0 0;0 1 0; 0 0 1'),c=np.array([0,0,0])):
-            E_SSM(a,R,c,b)
+            return E_SSM(a,R,c,b)
 
         b = np.zeros(len(phim))
         verts_SSM = None
-        for k in range(5): # only iterate 5 times since not confident about how to evaluate the convergence of a,R,c and b
-            res = opt.minimize(fun_trans, np.ones(shape=(13,)), args=(b), method='l-bfgs', jac=False,
+        numiter = 1
+        for k in range(1): # only iterate 5 times since not confident about how to evaluate the convergence of a,R,c and b
+            res = opt.minimize(fun_trans, np.ones(shape=(13,)), args=(b), method='l-bfgs-b', jac=False,
                                callback=None, options={'maxiter': 100, 'disp': True})
             x = res['x']
             a = x[0]
-            R = np.matrix(x[1:10])
+            R = np.matrix(x[1:10].reshape((3,3)))
             c = np.array(x[10:13])
+            print 'x:', x
+            print 'success?', res['success']
+            print 'message:', res['message']
 
-            res = opt.minimize(fun_SSMP, np.ones(shape=(len(phim),)), args=(a,R,c),method='l-bfgs', jac=False,
+            res = opt.minimize(fun_SSMP, np.ones(shape=(len(phim),)), args=(a,R,c),method='l-bfgs-b', jac=False,
                                callback=None, options={'maxiter': 100, 'disp': True})
             x = res['x']
             b = x
+            print 'x:', x
+            print 'success?', res['success']
+            print 'message:', res['message']
 
-            verts_SSM = updateSSM()
+            verts_SSM = updateSSM(a,R,c,b)
             # here, we can terminate the loop by checking whether the change of verts_SSM is small enough
         S_SSM.verts = verts_SSM
 
+        return verts_SSM
+
     def OptimizeSB():
+        nv = S_B.verts.shape[0]
         def E_I_B(SBVerts):
-            pass
+            verts_SB = SBVerts
+            verts_SI = S_I.verts
+
+            verts_BI = verts_SB - verts_SI
+            e = np.sum(verts_BI * verts_BI) / 2.
+
+            return e
 
         def E_SSM(SBVerts):
-            pass
+            verts_SB = SBVerts
+            verts_SSM = S_SSM.verts
+
+            verts_BSSM = verts_SB - verts_SSM
+            e = np.sum(verts_BSSM * verts_BSSM) / 2.
+            return e
 
         def E_SIM(SBVerts):
-            pass
+            verts_SB = SBVerts
 
-        def fun(S_B):
+            e = 0
+            return e
+        def TrivariageBSpline(tbounds,z,s,k=3):# z.ndim should be 4. the first 3 are the shape of the control vertices,
+            # ,and shape[3]  should be 3 to contain the coordinate of the vertices. Note, if the number of voxel is x,
+            # then the number of control points should be x + k - 1
+            shape = z.shape[0:3] # the number of control points
+            shape = np.array(shape)
+            shape -= [k - 1,k - 1,k - 1] # the number of voxels in each dimension
+            tx = np.zeros(shape=(shape[0] + 2 * k,))
+            tx[k:-k] = np.linspace(0.,tbounds[0],shape[0])
+            tx[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[0])
+            # print 'tx:',tx
+            ty = np.zeros(shape=(shape[1] + 2 * k,))
+            ty[k:-k] = np.linspace(0.,tbounds[1],shape[1])
+            ty[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[1])
+            # print 'ty:',ty
+            tz = np.zeros(shape=(shape[2] + 2 * k,))
+            tz[k:-k] = np.linspace(0.,tbounds[2],shape[2])
+            tz[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[2])
+            # print 'tz:',tz
+            spl = None
+            shape = z.shape[0:3]
+            vv = []
+            s = s.transpose()
+            for ii in range(shape[0]):
+                v = []
+                for jj in range(shape[1]):
+                    spl = BSpline(tz,z[ii][jj],k)
+                    val = spl(s[2])
+                    v.append(val)
+                v = np.array(v)
+                spl = BSpline(ty,v,k)
+                val = spl(s[1])
+                vv.append(spl(s[1]))
+            vv = np.array(vv)
+            spl = BSpline(tx,vv,k)
+            spl = spl(s[0])
+            return spl
+        # z = np.arange(0,5 * 100 * 3)
+        # z = z.reshape((5,10,10,3))
+        # tbounds = [1024,512,512]
+        # spl = TrivariageBSpline(tbounds,z,[2,7,0])
+        # print 'spline %s' % (spl)
+        def updateSB(tbounds,z,verts):
+            '''
+            this is a time consuming operation if len(verts) is too large
+            Note: this will change verts
+            :param tbounds:
+            :param z:
+            :param verts:
+            :return:
+            '''
+            for v in verts:
+                v += TrivariageBSpline(tbounds,z,v)
+
+        gridDim = (5,5,10,3)
+        def fun(z,tbounds,SBVerts):
+            verts = SBVerts.reshape((nv, 3)).copy()
+            z = z.reshape(gridDim)
+            updateSB(tbounds,z,verts)
+            omega_IB = 1.
+            omega_SSM = 1.
+            omega_SIM = 1.
+            eIB = omega_IB * E_I_B(verts)
+            eSSM = omega_SSM * E_SSM(verts)
+            eSIM = omega_SIM * E_SIM(verts)
+            e = eIB + eSSM + eSIM
+
+            return e
+
+        def gradient(z,tbounds,SBVerts):
             pass
-        res = opt.minimize(fun,S_B,method = 'bfgs',options={'maxiter':5})
+        tbounds = np.array(volume.pixelArray.shape)
+        res = opt.minimize(fun, np.ones(shape = gridDim), args=(tbounds,S_B.verts),method='l-bfgs-b',jac=False,
+                           callback=None,options={'maxiter': 5, 'disp': True})
+
+        updateSB(tbounds,res['x'],S_B.verts)
+        return S_B.verts
 
     #repeat optimization until converge
     for k in range(1):
-        OptimizeSI()
-    openmesh.writeOff('./Data/registered_reg1.off',S_B.verts,S_B.faces)
+        verts = OptimizeSI()
+        # verts = OptimizeSSM()
+        # verts = OptimizeSB()
+
+        S_B.verts = verts
 
     return S_B
-
-
 
 def main():
     ''' Segment a 3D spine Dicom image with pre-trained mesh model.'''
 
+    # test transformmesh
+    # verts = np.array([[2,1,0]],dtype=np.float32)
+    # transformmesh.transform(verts,np.array([-1,-2,-3]),np.array([2,3,4]))
+    # transformmesh.transform(verts,np.array([1,2,3]),np.array([1./2,1./3,1./4]),inverse=True)
+    # return
 
 
     # First, load the mean model and the 3D Dicom data
-    meshinfo = {'filename':'./Data/transformed_reg1.off','centerLowerEndplate':[0,0,0],'centerUpperEndplate':[0,0,1]}
+    meshinfo = {'filename':'./Data/transformed_reg1_simplifiedTo2000.off','centerLowerEndplate':[0,0,0],'centerUpperEndplate':[0,0,1]}
     meanMesh = loadMesh('meanmesh',meshinfo)
     dicominfo = {'dirname':'/Users/mac/Downloads/Dicom Data/2585255-profYu','centerLowerEndplate':[0,0,0],'centerUpperEndplate':[0,0,1]}
     dicomImage = loadDICOM(dicominfo)
+
+    shapeForComp = dicomImage.vol_data_forComp.shape
+    spacing = [dicomImage.spacingX,dicomImage.spacingY,dicomImage.spacingSlice]
+    firstPos = dicomImage.firstLocation
+    # print 'firstpos',firstPos
+    imagePos = dicomImage.imagePosition
+    # print 'impos',imagePos
+    lastPos = imagePos[2]
+    # print 'lastpos',lastPos
+    width = (shapeForComp[0] - 1.) * spacing[0]
+    height = (shapeForComp[1] - 1.) * spacing[1]
+    thickness = np.abs(firstPos - lastPos)
+    # print width,height,thickness
+    trans = [width - imagePos[0],height - imagePos[1],-lastPos]
+    print 'trans:',trans
+    scale = [shapeForComp[0]/width,shapeForComp[1]/height,shapeForComp[2]/thickness]
+    print 'scale:',scale
+    transformmesh.transform(meanMesh.verts, trans, scale,translateFirst=True)
+    # meanMesh.updateMesh()
 
     # show the mesh and 3D image in the same window
     meanMesh.show()
     ct_aaa = getColorMaps('ct_aaa')
     dicomImage.show(cmap = ct_aaa)
+
+    # to test volume visualization, but no use. cmap is the only way to define the colors
+    # vol_data = np.ones(100*100*100*4).reshape(10,100,1000,4) # * 0.7
+    # for x in range(10):
+    #     for y in range(100):
+    #         for z in range(1000):
+    #             vol_data[x][y][z][0] = 1.#np.abs(x - 4.5) / 4.5
+    #             vol_data[x][y][z][1] = .5#np.abs(y - 49.5) / 49.5
+    #             vol_data[x][y][z][2] = 1. #np.abs(z - 499.5) / 499.5
+    #             vol_data[x][y][z][3] = 1. #random.random()
+    # volume = visuals.Volume(vol_data, clim=np.array([0,1]), method='iso',threshold = 0.1, relative_step_size=0.8, emulate_texture=False)
+    # view.add(volume)
+
+    v, f = openmesh.readOff('./Data/sphere.off', quiet=True)
+    sphere = visuals.Mesh(vertices=np.array(v),faces=np.array(f),color=np.array([[1.0, 1.0, 1.0,0.9]]),shading='flat')
+    view.add(sphere)
+    v, f = openmesh.readOff('./Data/x.off', quiet=True)
+    x = visuals.Mesh(vertices=np.array(v), faces=np.array(f), color=np.array([[1.0, 0.0, 0.0, 0.9]]),
+                          shading='flat')
+    view.add(x)
+    v, f = openmesh.readOff('./Data/y.off', quiet=True)
+    y = visuals.Mesh(vertices=np.array(v), faces=np.array(f), color=np.array([[1.0, 1.0, 0.0, 0.9]]),
+                          shading='flat')
+    view.add(y)
+    v, f = openmesh.readOff('./Data/z.off', quiet=True)
+    z = visuals.Mesh(vertices=np.array(v), faces=np.array(f), color=np.array([[0.0, 0.0, 1.0, 0.9]]),
+                          shading='flat')
+    view.add(z)
+    view.camera.set_range()
+
 
     # view.add(visuals.Cube())
     meanMesh.hide()
@@ -686,11 +982,16 @@ def main():
     initMeshInDicom(meanMesh,dicomImage)
 
     # Third, Optimize the mesh
-    S_B = OptimizeMesh(meanMesh,dicomImage)
+    S = OptimizeMesh(meanMesh,dicomImage)
+    # OptimizeMesh(meanMesh,Volume())
 
-    S_B.show()
+    S.show()
+    itrans = [-trans[0],-trans[1],-trans[2]]
+    iscale = [1./scale[0],1./scale[1],1./scale[2]]
+    transformmesh.transform(S.verts,itrans,iscale)
+    openmesh.writeOff('./Data/registered_reg1.off', S.verts, S.faces)
 
-    vispy.app.run()
+    # vispy.app.run()
 
 if __name__ == "__main__":
     main()
