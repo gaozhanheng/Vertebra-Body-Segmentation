@@ -284,24 +284,25 @@ def icp_point_to_plane_lm(source_points, dest_points,initial,loop):
         icp_point_to_point_lm(source_points,dest_points,initial, loop)
 
 
-fileOriginal = './data/original.xyz'
-deformed = './data/deformed.xyz'
+if __name__ == '__main__':
+    fileOriginal = './data/original.xyz'
+    deformed = './data/deformed.xyz'
 
-source_points = read_file_original(fileOriginal)
-dest_points_et_normal = read_file_deformed(deformed)
+    source_points = read_file_original(fileOriginal)
+    dest_points_et_normal = read_file_deformed(deformed)
 
-initial = np.array([[0.01], [0.05], [0.01], [0.001], [0.001], [0.001]])
+    initial = np.array([[0.01], [0.05], [0.01], [0.001], [0.001], [0.001]])
 
-# **********************************************************************
-# Uncomment one of the following lines to trigger the respective module:
-# **********************************************************************
+    # **********************************************************************
+    # Uncomment one of the following lines to trigger the respective module:
+    # **********************************************************************
 
 
-#icp_point_to_plane(source_points,dest_points_et_normal,0)
+    #icp_point_to_plane(source_points,dest_points_et_normal,0)
 
-#icp_point_to_point_lm(source_points,dest_points_et_normal,initial,0)
+    #icp_point_to_point_lm(source_points,dest_points_et_normal,initial,0)
 
-icp_point_to_plane_lm(source_points,dest_points_et_normal,initial,0)
+    icp_point_to_plane_lm(source_points,dest_points_et_normal,initial,0)
 
 
 

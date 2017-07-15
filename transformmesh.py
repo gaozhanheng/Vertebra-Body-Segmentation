@@ -61,15 +61,16 @@ def transform(verts,translate=None,scale = None ,translateFirst=False,quiet=True
         print verts
 
 if __name__ == '__main__':
-    filename = './Data/reg1.off'
+    filename = './Data/sphere.off'
 
     verts, faces = meshio.readOff(filename)
     verts = np.array(verts)
     faces = np.array(faces)
-    trans = [30,15,10]
+    trans = [50,50,50] # try [44,44,44],[30,30,30],[25,25,25], [20,20,20], [15,15,15],[10,10,10],[5,5,5], quite funny,
+    # and [-50,-50,-50]
     scale = [1.,1.,1.]
     transform(verts,trans,scale)
-    meshio.writeOff('./Data/transformed_reg1.off',verts,faces)
+    meshio.writeOff('./Data/transformed_sphere.off',verts,faces)
 
 
 
