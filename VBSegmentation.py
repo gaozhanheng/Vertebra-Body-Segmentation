@@ -406,7 +406,7 @@ def loadMesh(meshName,meshInfo):
 
     phim = []
     for k in range(1):
-        phim.append(np.zeros(shape=(mesh.nv * 3)).reshape(mesh.nv,3))
+        phim.append(np.zeros(shape=(mesh.nv * 3,)).reshape(mesh.nv,3))
     mesh.phim = phim
 
     return mesh
@@ -481,6 +481,7 @@ def loadDICOM(dicominfo):
 
     vol_data = np.flip(vol_data, axis=0)
     # print 'vol data',vol_data
+    vol_data = ndimage.median_filter(vol_data,size=3)
     vol_data = ndimage.gaussian_filter(np.array(vol_data),sigma=2,order=1)
     vol_data_forComp = np.rollaxis(np.rollaxis(vol_data,axis=1),axis=2)# we don't change vol_data_forComp so no need to copy vol_data
 
@@ -580,7 +581,7 @@ def OptimizeMesh(mesh,volume):
         # these two parameters really affect the convergence and final result of the optimization process. try (1.,0.)
         # (.8,.2), and (.2,.8) for the eclipsoid case. Some results are funny.
         omega1 = .5
-        omega2 = .3
+        omega2 = .5
         signGradient = 1.
         signPixel = 1. # put these two here to convinently modify. (-1.,-1.) for eclipsoid case
         # if the function is defined well, it can also converge to the right result without help of gradient
@@ -836,10 +837,11 @@ def OptimizeMesh(mesh,volume):
             graderr = opt.check_grad(E_I,gradient_EI,S_I.verts.copy().reshape((nv * 3,)))
             print 'graderr for EI when optimizing SI is:',graderr
 
+        refMesh = S_SSM  # original is S_B
         def E_I_B(SIVerts):
             SIVerts = SIVerts.reshape((nv,3))
 
-            verts_SB = S_B.verts[0:nv]
+            verts_SB = refMesh.verts[0:nv]
             verts_SI = SIVerts
 
             verts_BI = verts_SB - verts_SI
@@ -848,7 +850,7 @@ def OptimizeMesh(mesh,volume):
         def gradient_EIB(SIVerts):
             SIVerts = SIVerts.reshape((nv,3))
 
-            verts_SB = S_B.verts[0:nv]
+            verts_SB = refMesh.verts[0:nv]
             verts_SI = SIVerts
             verts_BI = verts_SI - verts_SB
             return verts_BI.reshape((nv * 3,))
@@ -859,8 +861,8 @@ def OptimizeMesh(mesh,volume):
             print 'graderr for EIB when optimizing SI is:', graderr
 
         # weights really affect
-        omega_EI = .9
-        omega_BI = .1
+        omega_EI = .95
+        omega_BI = .05
         def fun(SIVerts):
             verts = SIVerts.reshape((nv,3))
 
@@ -895,7 +897,6 @@ def OptimizeMesh(mesh,volume):
         # with gradient, we can choose:CG,Newton-CG,l-bfgs-b,TNC,
         # with gradient and hessian, we can choose: dogleg and trust-cg (both not tested)
 
-        refMesh = S_SSM # original is S_B
         res = opt.minimize(fun, refMesh.verts.reshape((nv * 3,)), args=(),method='l-bfgs-b',jac=gradient,
                            callback=callback,tol=1e-6,options={'maxiter': 100, 'disp': True,'gtol':1e-6})
         x = res['x'].reshape((nv,3))
@@ -941,28 +942,37 @@ def OptimizeMesh(mesh,volume):
             R = np.matrix(vs[1:10].reshape((3,3)))
             c = np.array(vs[10:13])
             return E_SSM(a,R,c,b)
+        def rotationConstraint(vs):
+            R = np.matrix(vs[1:10].reshape((3, 3)))
+            return R.transpose() * R - np.identity(3,dtype=np.float32)
+
         def fun_SSMP(b,a=0,R=np.matrix('1 0 0;0 1 0; 0 0 1'),c=np.array([0,0,0])):
             return E_SSM(a,R,c,b)
 
         nv = mesh.verts.shape[0]
-        def callback(verts):
-            verts = verts.reshape((nv, 3))
+        def callbackTrans(x):
+            a = x[0]
+            R = np.matrix(x[1:10].reshape((3, 3)))
+            c = np.array(x[10:13])
             global km
+            verts = transformSSM(a,R,c,np.zeros(len(phim)))
             openmesh.writeOff(dirname + '/%s_registered_SSM.off' % km, verts, mesh.faces)
             km += 1
+        def callbackSSMP(b):
+            pass
 
         b = np.ones(len(phim)) # initial guess
         a = 1.
         R = np.matrix('1. 0. 0.;0. 1. 0.;0. 0. 1.')
         c = np.array([0.,0.,0.],dtype=np.float32)
         verts_SSM = None
-        for k in range(3): # only iterate 5 times since not confident about how to evaluate the convergence of a,R,c and b
+        for k in range(1): # only iterate 5 times since not confident about how to evaluate the convergence of a,R,c and b
             initvals = np.zeros((13,))
             initvals[0] = a
             initvals[1:10] = R.reshape((9,))
             initvals[10:13] = c
-            res = opt.minimize(fun_trans,initvals, args=(b), method='l-bfgs-b', jac=False,
-                               callback=callback, options={'maxiter': 100, 'disp': True})
+            res = opt.minimize(fun_trans,initvals, args=(b), method='slsqp', jac=False,
+                               callback=callbackTrans, options={'maxiter': 100, 'disp': True})
             x = res['x']
             a = x[0]
             R = np.matrix(x[1:10].reshape((3,3)))
@@ -971,19 +981,39 @@ def OptimizeMesh(mesh,volume):
             print 'success?', res['success']
             print 'message:', res['message']
 
-            res = opt.minimize(fun_SSMP, b, args=(a,R,c),method='l-bfgs-b', jac=False,
-                               callback=callback, options={'maxiter': 100, 'disp': True})
-            x = res['x']
-            b = x
-            print 'x:', x
-            print 'success?', res['success']
-            print 'message:', res['message']
+            # res = opt.minimize(fun_SSMP, b, args=(a,R,c),method='l-bfgs-b', jac=False,
+            #                    callback=callbackSSMP, options={'maxiter': 100, 'disp': True})
+            # x = res['x']
+            # b = x
+            # print 'x:', x
+            # print 'success?', res['success']
+            # print 'message:', res['message']
 
             verts_SSM = transformSSM(a,R,c,b)
             # here, we can terminate the loop by checking whether the change of verts_SSM is small enough
         S_SSM.verts = verts_SSM.copy()
 
         return verts_SSM
+
+    def OptimizeSSM_ICP():
+        verts_SSM = mesh.verts.copy()  # mesh is the mean mesh.
+        verts_ref = S_I.verts.copy()
+
+        initial = np.array([[0.01], [0.05], [0.01], [0.001], [0.001], [0.001]])
+        params = np.empty((6,))
+        basicICP.icp_point_to_point_lm(verts_SSM,verts_ref,initial=initial,loop = 0,params = params)
+        print 'params',params
+
+        S_SSM.verts = mesh.verts.copy()
+        # print 'verts before',S_SSM.verts
+        S_SSM.verts = basicICP.transformpoints(S_SSM._verts,params=params)
+        # print 'verts after', S_SSM.verts
+
+        global km
+        openmesh.writeOff(dirname + '/%s_registered_SSM.off' % km, S_SSM._verts, mesh.faces)
+        km += 1
+
+        return S_SSM.verts.copy()
 
     def OptimizeSB():
         nv = S_SSM.verts.shape[0]
@@ -1098,9 +1128,9 @@ def OptimizeMesh(mesh,volume):
     for k in range(1):
         print '------------> Optimizing SI <-------------'
         verts = OptimizeSI()
-        # S_B.verts = verts
+        S_B.verts = verts
         print '------------> Optimizing SSM <-------------'
-        verts = OptimizeSSM()
+        verts = OptimizeSSM_ICP()
         # print '------------> Optimizing SB <-------------'
         # verts = OptimizeSB()
 

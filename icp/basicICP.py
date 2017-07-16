@@ -124,7 +124,7 @@ def icp_point_to_plane(source_points, dest_points,loop):
     
     tr = np.dot(A_,b)
     
-    print str(tr[0])+','+str(tr[1])+','+str(tr[2])+','+str(tr[3])+','+str(tr[4])+','+str(tr[5])
+    # print str(tr[0])+','+str(tr[1])+','+str(tr[2])+','+str(tr[3])+','+str(tr[4])+','+str(tr[5])
     
     R = transform.euler_matrix(tr[0],tr[1],tr[2])
     R[0,3] = tr[3]
@@ -146,15 +146,38 @@ def icp_point_to_plane(source_points, dest_points,loop):
     if(loop < 3):   #although this should converge in one step (which it does), you might want to reiterate over and over, just for the fun of it!
     
         icp_point_to_plane(source_points,dest_points,loop)
-                
-        
-def icp_point_to_point_lm(source_points, dest_points,initial,loop):
+def transformpoints(points,params):
+    '''
+    transform points according to the Eular angles and translations specified in params
+    :param params:
+    :return:
+    '''
+    alpha = params[0]
+    beta = params[1]
+    gamma = params[2]
+    tx = params[3]
+    ty = params[4]
+    tz = params[5]
+    transformedpts = []
+    for s in points:
+        sx = s[0]
+        sy = s[1]
+        sz = s[2]
+        a4 = sx - (gamma * sy) + (beta * sz) + tx
+        a5 = sy - (alpha * sz) + (gamma * sx) + ty
+        a6 = sz - (beta * sx) + (alpha * sy) + tz
+        transformedpts.append(np.array([a4,a5,a6]))
+
+    return np.array(transformedpts)
+
+def icp_point_to_point_lm(source_points, dest_points,initial,loop,params):
     """
     Point to point matching using Gauss-Newton
     
     source_points:  nx3 matrix of n 3D points
     dest_points: nx3 matrix of n 3D points, which have been obtained by some rigid deformation of 'source_points'
-    initial: 1x6 matrix, denoting alpha, beta, gamma (the Euler angles for rotation and tx, ty, tz (the translation along three axis). 
+    initial: 1x6 matrix, denoting alpha, beta, gamma
+    (the Euler angles for rotation and tx, ty, tz (the translation along three axis).
                 this is the initial estimate of the transformation between 'source_points' and 'dest_points'
     loop: start with zero, to keep track of the number of times it loops, just a very crude way to control the recursion            
                 
@@ -182,9 +205,12 @@ def icp_point_to_point_lm(source_points, dest_points,initial,loop):
         tz = initial[5][0]
         #print alpha
         
-        a1 = (-2*beta*sx*sy) - (2*gamma*sx*sz) + (2*alpha*((sy*sy) + (sz*sz))) + (2*((sz*dy) - (sy*dz))) + 2*((sy*tz) - (sz*ty))
-        a2 = (-2*alpha*sx*sy) - (2*gamma*sy*sz) + (2*beta*((sx*sx) + (sz*sz))) + (2*((sx*dz) - (sz*dx))) + 2*((sz*tx) - (sx*tz))
-        a3 = (-2*alpha*sx*sz) - (2*beta*sy*sz) + (2*gamma*((sx*sx) + (sy*sy))) + (2*((sy*dx) - (sx*dy))) + 2*((sx*ty) - (sy*tx))
+        a1 = (-2*beta*sx*sy) - (2*gamma*sx*sz) + (2*alpha*((sy*sy) + (sz*sz))) +\
+             (2*((sz*dy) - (sy*dz))) + 2*((sy*tz) - (sz*ty))
+        a2 = (-2*alpha*sx*sy) - (2*gamma*sy*sz) + (2*beta*((sx*sx) + (sz*sz))) + \
+             (2*((sx*dz) - (sz*dx))) + 2*((sz*tx) - (sx*tz))
+        a3 = (-2*alpha*sx*sz) - (2*beta*sy*sz) + (2*gamma*((sx*sx) + (sy*sy))) + \
+             (2*((sy*dx) - (sx*dy))) + 2*((sx*ty) - (sy*tx))
         a4 = 2*(sx - (gamma*sy) + (beta*sz) +tx -dx)
         a5 = 2*(sy - (alpha*sz) + (gamma*sx) +ty -dy)
         a6 = 2*(sz - (beta*sx) + (alpha*sy) +tz -dz)
@@ -201,21 +227,25 @@ def icp_point_to_point_lm(source_points, dest_points,initial,loop):
     residual = np.array(e)
     
     update = -np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(jacobian),jacobian)),np.transpose(jacobian)),residual)
-    
-    #print update, initial
+
+    # print 'update and current params in ICP:'
+    # print update, initial
     
     initial = initial + update
-    
-    print np.transpose(initial)
+
+    for k in range(6):
+        params[k] = initial[k][0]
+
+    # print np.transpose(initial)
     
     loop = loop + 1
     
     if(loop < 50):  # here lies the control variable, control the number of iteration from here
     
-        icp_point_to_point_lm(source_points,dest_points,initial, loop)
+        icp_point_to_point_lm(source_points,dest_points,initial, loop,params)
         
         
-def icp_point_to_plane_lm(source_points, dest_points,initial,loop):
+def icp_point_to_plane_lm(source_points, dest_points,initial,loop,params):
     """
     Point to plane matching using Gauss Newton
     
@@ -274,19 +304,25 @@ def icp_point_to_plane_lm(source_points, dest_points,initial,loop):
     #print update, initial
     
     initial = initial + update
+    for k in range(6):
+        params[k] = initial[k][0]
     
-    print np.transpose(initial)
+    # print np.transpose(initial)
     
     loop = loop + 1
+
     
     if(loop < 50):  # here lies the control variable, control the number of iteration from here
     
-        icp_point_to_point_lm(source_points,dest_points,initial, loop)
+        icp_point_to_point_lm(source_points,dest_points,initial, loop,params)
+
 
 
 if __name__ == '__main__':
-    fileOriginal = './data/original.xyz'
-    deformed = './data/deformed.xyz'
+    fileOriginal = './data/transformed_reg1_simplifiedTo2000.off.xyz'
+    deformed = './data/transformed_reg1_simplifiedTo2000_transformed.off.xyz'
+    # fileOriginal = './data/original.xyz'
+    # deformed = './data/deformed.xyz'
 
     source_points = read_file_original(fileOriginal)
     dest_points_et_normal = read_file_deformed(deformed)
@@ -302,7 +338,13 @@ if __name__ == '__main__':
 
     #icp_point_to_point_lm(source_points,dest_points_et_normal,initial,0)
 
-    icp_point_to_plane_lm(source_points,dest_points_et_normal,initial,0)
+    print 'before'
+    print source_points
+    params = np.empty((6,))
+    icp_point_to_plane_lm(source_points,dest_points_et_normal,initial,0,params)
+    print 'after'
+    pts = transformpoints(source_points,params)
+    print pts
 
 
 
