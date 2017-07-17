@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81a1f552-904f-438b-b7a6-3f8be6115fe0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/icp/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/sphereradius.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tests/testpydicom.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="81a1f552-904f-438b-b7a6-3f8be6115fe0" name="Default" comment="update">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/LevelSet.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/SIM.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/SegAlgo.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/__init__.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/registered_reg1.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/10_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/11_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/12_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/13_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/14_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/15_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/16_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/17_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/18_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/19_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/1_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/20_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/21_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/22_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/23_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/24_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/25_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/26_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/27_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/28_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/2_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/3_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/4_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/5_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/6_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/7_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/8_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/9_registered_SI.off" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/资料/Active Shape Models- Their Training and Application.pdf" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Statistical Interspace Models.pdf" afterPath="$PROJECT_DIR$/Statistical Interspace Models.pdf" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Vertebra-Body-Segmentation.iml" afterPath="$PROJECT_DIR$/.idea/Vertebra-Body-Segmentation.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data/registered_reg1.off" afterPath="$PROJECT_DIR$/Data/registered_reg1.off" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data/transformed_reg1_simplifiedTo2000.off" afterPath="$PROJECT_DIR$/Data/transformed_reg1_simplifiedTo2000.off" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data/transformed_reg1_simplifiedTo4000.off" afterPath="$PROJECT_DIR$/Data/transformed_reg1_simplifiedTo4000.off" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data/transformed_sphere.off" afterPath="$PROJECT_DIR$/Data/transformed_sphere.off" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VBSegmentation.py" afterPath="$PROJECT_DIR$/VBSegmentation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/icp/basicICP.py" afterPath="$PROJECT_DIR$/icp/basicICP.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transformmesh.py" afterPath="$PROJECT_DIR$/transformmesh.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,51 +64,78 @@
       <file leaf-file-name="VBSegmentation.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VBSegmentation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="976" column="17" lean-forward="true" selection-start-line="976" selection-start-column="17" selection-end-line="976" selection-end-column="17" />
+            <state relative-caret-position="103">
+              <caret line="1230" column="35" lean-forward="true" selection-start-line="1230" selection-start-column="35" selection-end-line="1230" selection-end-column="35" />
               <folding>
                 <element signature="e#137#176#0" expanded="true" />
-                <element signature="e#1842#2794#0" expanded="false" />
-                <element signature="e#2852#3368#0" expanded="false" />
-                <element signature="e#3590#3695#0" expanded="false" />
-                <element signature="e#14877#14918#0" expanded="false" />
-                <element signature="e#15588#16072#0" expanded="false" />
-                <element signature="e#16104#16237#0" expanded="false" />
-                <element signature="e#16817#16853#0" expanded="false" />
-                <element signature="e#19119#19840#0" expanded="false" />
-                <element signature="e#19915#20034#0" expanded="false" />
-                <element signature="e#20993#24897#0" expanded="false" />
-                <element signature="e#21573#24874#0" expanded="false" />
-                <element signature="e#23148#23638#0" expanded="false" />
-                <element signature="e#23829#24563#0" expanded="false" />
-                <element signature="e#24062#24208#0" expanded="false" />
-                <element signature="e#24944#32177#0" expanded="false" />
-                <element signature="e#26027#29578#0" expanded="false" />
-                <element signature="e#26365#26528#0" expanded="false" />
-                <element signature="e#27295#28644#0" expanded="false" />
-                <element signature="e#28709#29199#0" expanded="false" />
-                <element signature="e#29631#31157#0" expanded="false" />
-                <element signature="e#32306#32514#0" expanded="false" />
-                <element signature="e#32556#32822#0" expanded="false" />
-                <element signature="e#32870#33064#0" expanded="false" />
-                <element signature="e#33100#33316#0" expanded="false" />
-                <element signature="e#33432#33597#0" expanded="false" />
-                <element signature="e#33641#33859#0" expanded="false" />
-                <element signature="e#33895#34089#0" expanded="false" />
-                <element signature="e#34132#34292#0" expanded="false" />
-                <element signature="e#38232#42118#0" expanded="false" />
-                <element signature="e#42625#42645#0" expanded="false" />
-                <element signature="e#44299#44384#0" expanded="false" />
+                <element signature="e#1843#2795#0" expanded="false" />
+                <element signature="e#2853#3369#0" expanded="false" />
+                <element signature="e#3591#3696#0" expanded="false" />
+                <element signature="e#14502#16413#0" expanded="false" />
+                <element signature="e#14879#14920#0" expanded="false" />
+                <element signature="e#15590#16074#0" expanded="false" />
+                <element signature="e#16106#16239#0" expanded="false" />
+                <element signature="e#16911#18097#0" expanded="false" />
+                <element signature="e#18103#18139#0" expanded="false" />
+                <element signature="e#20235#36531#0" expanded="false" />
+                <element signature="e#20405#21126#0" expanded="false" />
+                <element signature="e#21201#21320#0" expanded="false" />
+                <element signature="e#22324#26228#0" expanded="false" />
+                <element signature="e#22904#26205#0" expanded="false" />
+                <element signature="e#24479#24969#0" expanded="false" />
+                <element signature="e#25160#25894#0" expanded="false" />
+                <element signature="e#25393#25539#0" expanded="false" />
+                <element signature="e#26275#33508#0" expanded="false" />
+                <element signature="e#27358#30909#0" expanded="false" />
+                <element signature="e#27696#27859#0" expanded="false" />
+                <element signature="e#28626#29975#0" expanded="false" />
+                <element signature="e#30040#30530#0" expanded="false" />
+                <element signature="e#30962#32488#0" expanded="false" />
+                <element signature="e#33930#34200#0" expanded="false" />
+                <element signature="e#34248#34446#0" expanded="false" />
+                <element signature="e#34482#34698#0" expanded="false" />
+                <element signature="e#34825#34990#0" expanded="false" />
+                <element signature="e#35034#35252#0" expanded="false" />
+                <element signature="e#35288#35482#0" expanded="false" />
+                <element signature="e#35525#35685#0" expanded="false" />
+                <element signature="e#36564#39909#0" expanded="false" />
+                <element signature="e#36791#37284#0" expanded="false" />
+                <element signature="e#37379#37563#0" expanded="false" />
+                <element signature="e#37805#37915#0" expanded="false" />
+                <element signature="e#38110#38396#0" expanded="false" />
+                <element signature="e#38438#38442#0" expanded="false" />
+                <element signature="e#39946#40647#0" expanded="false" />
+                <element signature="e#40899#41067#0" expanded="false" />
+                <element signature="e#41109#41286#0" expanded="false" />
+                <element signature="e#41328#41386#0" expanded="false" />
+                <element signature="e#41519#43088#0" expanded="false" />
+                <element signature="e#43097#43127#0" expanded="false" />
+                <element signature="e#43367#45719#0" expanded="false" />
+                <element signature="e#45772#46572#0" expanded="false" />
+                <element signature="e#48790#49041#0" expanded="false" />
+                <element signature="e#50013#50033#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="basicICP.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/icp/basicICP.py">
+      <file leaf-file-name="VBSegDL.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="286" column="26" lean-forward="false" selection-start-line="286" selection-start-column="26" selection-end-line="286" selection-end-column="26" />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../VBSeg-DL/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,41 +144,11 @@
       <file leaf-file-name="transformmesh.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/transformmesh.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="62" column="26" lean-forward="false" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
+            <state relative-caret-position="70">
+              <caret line="98" column="26" lean-forward="false" selection-start-line="98" selection-start-column="26" selection-end-line="98" selection-end-column="26" />
               <folding>
-                <element signature="e#236#2021#0" expanded="false" />
+                <element signature="e#0#13#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BasReliefGenerator.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../浮雕设计/Code/GenerateBasRelief/BasReliefGenerator.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10999">
-              <caret line="657" column="60" lean-forward="false" selection-start-line="657" selection-start-column="60" selection-end-line="657" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="optimize.py" pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/optimize.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="12512">
-              <caret line="736" column="0" lean-forward="false" selection-start-line="736" selection-start-column="0" selection-end-line="736" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="multiarray.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/numpy/core/multiarray.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1955">
-              <caret line="115" column="4" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -124,8 +156,8 @@
       <file leaf-file-name="_minimize.py" pinned="false" current-in-tab="false">
         <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/_minimize.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5304">
-              <caret line="312" column="37" lean-forward="false" selection-start-line="312" selection-start-column="34" selection-end-line="312" selection-end-column="37" />
+            <state relative-caret-position="360">
+              <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -164,10 +196,15 @@
       <find>130</find>
       <find>166</find>
       <find>numcall</find>
+      <find>print</find>
+      <find>updateSB</find>
+      <find>utilities</find>
+      <find>genetateBasicFunc</find>
+      <find>TrivariateBSpline</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../VBSeg-DL" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -182,16 +219,23 @@
         <option value="$PROJECT_DIR$/../../../../../pyICP-master 2/pyICP/src/myICP.py" />
         <option value="$PROJECT_DIR$/pyicp/primjer.py" />
         <option value="$PROJECT_DIR$/tests/testpydicom.py" />
-        <option value="$PROJECT_DIR$/transformmesh.py" />
         <option value="$PROJECT_DIR$/tests/sphereradius.py" />
         <option value="$PROJECT_DIR$/icp/__init__.py" />
         <option value="$PROJECT_DIR$/icp/basicICP.py" />
+        <option value="$PROJECT_DIR$/transformmesh.py" />
+        <option value="$PROJECT_DIR$/algorithms/__init__.py" />
+        <option value="$PROJECT_DIR$/__init__.py" />
+        <option value="$PROJECT_DIR$/algorithms/SIM.py" />
+        <option value="$PROJECT_DIR$/algorithms/SegAlgo.py" />
         <option value="$PROJECT_DIR$/VBSegmentation.py" />
+        <option value="$PROJECT_DIR$/algorithms/LevelSet.py" />
+        <option value="$PROJECT_DIR$/../VBSeg-DL/__init__.py" />
+        <option value="$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="24" />
+    <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="789" />
   </component>
@@ -214,6 +258,7 @@
       </profile-state>
     </entry>
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -229,6 +274,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -237,6 +284,16 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="VBSeg-DL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Vertebra-Body-Segmentation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Vertebra-Body-Segmentation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -251,28 +308,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="tests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="icp" />
+              <option name="myItemId" value="algorithms" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -328,19 +369,55 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="sphereradius" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithms" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Vertebra-Body-Segmentation" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/sphereradius.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SIM" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithms" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Vertebra-Body-Segmentation" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/SIM.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SegAlgo" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithms" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Vertebra-Body-Segmentation" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/SegAlgo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -411,16 +488,35 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
-    <list size="3">
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Vertebra-Body-Segmentation" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.transformmesh" />
       <item index="1" class="java.lang.String" itemvalue="Python.VBSegmentation" />
-      <item index="2" class="java.lang.String" itemvalue="Python.sphereradius" />
+      <item index="2" class="java.lang.String" itemvalue="Python.__init__" />
+      <item index="3" class="java.lang.String" itemvalue="Python.SIM" />
+      <item index="4" class="java.lang.String" itemvalue="Python.SegAlgo" />
     </list>
     <recent_temporary>
-      <list size="3">
+      <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.VBSegmentation" />
-        <item index="1" class="java.lang.String" itemvalue="Python.sphereradius" />
-        <item index="2" class="java.lang.String" itemvalue="Python.transformmesh" />
+        <item index="1" class="java.lang.String" itemvalue="Python.SegAlgo" />
+        <item index="2" class="java.lang.String" itemvalue="Python.SIM" />
+        <item index="3" class="java.lang.String" itemvalue="Python.__init__" />
+        <item index="4" class="java.lang.String" itemvalue="Python.transformmesh" />
       </list>
     </recent_temporary>
   </component>
@@ -442,7 +538,35 @@
       <option name="project" value="LOCAL" />
       <updated>1499755044725</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="update">
+      <created>1500259784633</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1500259784633</updated>
+    </task>
+    <task id="LOCAL-00003" summary="update">
+      <created>1500260063319</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1500260063319</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update">
+      <created>1500260261544</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1500260261544</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update">
+      <created>1500260331721</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1500260331721</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TodoView">
@@ -455,16 +579,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1440" height="789" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="789" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1988555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32488823" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26229507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25250357" sideWeight="0.49527666" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6199702" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.57228017" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19313304" sideWeight="0.49527666" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6736215" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39940387" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26251787" sideWeight="0.50472337" order="2" side_tool="true" content_ui="tabs" />
@@ -493,137 +617,16 @@
           <line>2</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/transformmesh.py</url>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="8" />
+      <option name="time" value="15" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Library/Python/2.7/site-packages/vispy/util/event.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="585" column="8" lean-forward="false" selection-start-line="585" selection-start-column="8" selection-end-line="585" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/scipy/optimize/_lbfgsb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../../NLP.py-develop/nlp/model/amplmodel.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../ipopt-0.1.3/setup.py" />
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="73" column="15" lean-forward="false" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/interpolate/fitpack2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="913" column="6" lean-forward="false" selection-start-line="913" selection-start-column="6" selection-end-line="913" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/interpolate/_bsplines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12">
-          <caret line="302" column="0" lean-forward="true" selection-start-line="302" selection-start-column="0" selection-end-line="302" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/numpy/lib/twodim_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="129" column="17" lean-forward="true" selection-start-line="129" selection-start-column="17" selection-end-line="129" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../浮雕设计/Code/GenerateBasRelief/BasReliefGenerator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10999">
-          <caret line="657" column="60" lean-forward="false" selection-start-line="657" selection-start-column="60" selection-end-line="657" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/vispy/visuals/shaders/program.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/vispy/visuals/volume.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="267" column="28" lean-forward="true" selection-start-line="267" selection-start-column="28" selection-end-line="267" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/vispy/gloo/texture.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
-          <caret line="516" column="6" lean-forward="false" selection-start-line="516" selection-start-column="6" selection-end-line="516" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/vispy/color/colormap.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55">
-          <caret line="444" column="6" lean-forward="false" selection-start-line="444" selection-start-column="6" selection-end-line="444" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colormaps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="44" lean-forward="false" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utilities.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/optimize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="12512">
-          <caret line="736" column="0" lean-forward="false" selection-start-line="736" selection-start-column="0" selection-end-line="736" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/numpy/lib/function_base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="25840">
           <caret line="1552" column="27" lean-forward="false" selection-start-line="1552" selection-start-column="8" selection-end-line="1552" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/meshio.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19">
-          <caret line="60" column="38" lean-forward="false" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/numpy/core/multiarray.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1955">
-          <caret line="115" column="4" lean-forward="false" selection-start-line="115" selection-start-column="4" selection-end-line="115" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -651,14 +654,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/_minimize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5304">
-          <caret line="312" column="37" lean-forward="false" selection-start-line="312" selection-start-column="34" selection-end-line="312" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/__builtin__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
@@ -666,25 +661,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/dicom/filewriter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="321" column="20" lean-forward="false" selection-start-line="321" selection-start-column="20" selection-end-line="321" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/testpydicom.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/numpy/core/numeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="1431" column="4" lean-forward="false" selection-start-line="1431" selection-start-column="4" selection-end-line="1431" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -699,7 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="320" column="0" lean-forward="false" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -723,7 +702,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
           <caret line="158" column="4" lean-forward="false" selection-start-line="158" selection-start-column="4" selection-end-line="158" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -731,17 +709,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="121">
           <caret line="209" column="4" lean-forward="false" selection-start-line="209" selection-start-column="4" selection-end-line="209" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/transformmesh.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="62" column="26" lean-forward="false" selection-start-line="62" selection-start-column="26" selection-end-line="62" selection-end-column="26" />
-          <folding>
-            <element signature="e#236#2021#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -749,17 +716,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-125">
           <caret line="2741" column="4" lean-forward="false" selection-start-line="2741" selection-start-column="4" selection-end-line="2741" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/sphereradius.py">
+    <entry file="file://$PROJECT_DIR$/tests/calcsphereradius.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="35" lean-forward="false" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -767,23 +730,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/icp/transformations.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1980">
-          <caret line="1898" column="0" lean-forward="false" selection-start-line="1898" selection-start-column="0" selection-end-line="1898" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/ndimage/filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="261" column="4" lean-forward="false" selection-start-line="261" selection-start-column="4" selection-end-line="261" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -791,56 +737,269 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="441">
           <caret line="173" column="6" lean-forward="false" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/ndimage/filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="1278" column="18" lean-forward="true" selection-start-line="1278" selection-start-column="8" selection-end-line="1278" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VBSegmentation.py">
+    <entry file="file://$PROJECT_DIR$/../../../浮雕设计/Code/GenerateBasRelief/BasReliefGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="976" column="17" lean-forward="true" selection-start-line="976" selection-start-column="17" selection-end-line="976" selection-end-column="17" />
-          <folding>
-            <element signature="e#137#176#0" expanded="true" />
-            <element signature="e#1842#2794#0" expanded="false" />
-            <element signature="e#2852#3368#0" expanded="false" />
-            <element signature="e#3590#3695#0" expanded="false" />
-            <element signature="e#14877#14918#0" expanded="false" />
-            <element signature="e#15588#16072#0" expanded="false" />
-            <element signature="e#16104#16237#0" expanded="false" />
-            <element signature="e#16817#16853#0" expanded="false" />
-            <element signature="e#19119#19840#0" expanded="false" />
-            <element signature="e#19915#20034#0" expanded="false" />
-            <element signature="e#20993#24897#0" expanded="false" />
-            <element signature="e#21573#24874#0" expanded="false" />
-            <element signature="e#23148#23638#0" expanded="false" />
-            <element signature="e#23829#24563#0" expanded="false" />
-            <element signature="e#24062#24208#0" expanded="false" />
-            <element signature="e#24944#32177#0" expanded="false" />
-            <element signature="e#26027#29578#0" expanded="false" />
-            <element signature="e#26365#26528#0" expanded="false" />
-            <element signature="e#27295#28644#0" expanded="false" />
-            <element signature="e#28709#29199#0" expanded="false" />
-            <element signature="e#29631#31157#0" expanded="false" />
-            <element signature="e#32306#32514#0" expanded="false" />
-            <element signature="e#32556#32822#0" expanded="false" />
-            <element signature="e#32870#33064#0" expanded="false" />
-            <element signature="e#33100#33316#0" expanded="false" />
-            <element signature="e#33432#33597#0" expanded="false" />
-            <element signature="e#33641#33859#0" expanded="false" />
-            <element signature="e#33895#34089#0" expanded="false" />
-            <element signature="e#34132#34292#0" expanded="false" />
-            <element signature="e#38232#42118#0" expanded="false" />
-            <element signature="e#42625#42645#0" expanded="false" />
-            <element signature="e#44299#44384#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="394">
+          <caret line="657" column="60" lean-forward="false" selection-start-line="657" selection-start-column="60" selection-end-line="657" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/numpy/core/numeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="2364" column="4" lean-forward="false" selection-start-line="2364" selection-start-column="4" selection-end-line="2364" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/slsqp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="383" column="0" lean-forward="false" selection-start-line="383" selection-start-column="0" selection-end-line="383" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/icp/transformations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="1898" column="0" lean-forward="false" selection-start-line="1898" selection-start-column="0" selection-end-line="1898" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/meshio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/math.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="91" column="4" lean-forward="false" selection-start-line="91" selection-start-column="4" selection-end-line="91" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/interpolate/_bsplines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2342">
+          <caret line="178" column="8" lean-forward="false" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/SegAlgo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="21" lean-forward="true" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/numpy/core/multiarray.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="5475" column="4" lean-forward="false" selection-start-line="5475" selection-start-column="4" selection-end-line="5475" selection-end-column="4" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/icp/basicICP.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="286" column="26" lean-forward="false" selection-start-line="286" selection-start-column="26" selection-end-line="286" selection-end-column="26" />
+        <state relative-caret-position="2015">
+          <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/functools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="49" column="14" lean-forward="true" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="3" column="23" lean-forward="true" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+          <folding>
+            <element signature="e#135#1129#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/optimize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="690" column="4" lean-forward="false" selection-start-line="690" selection-start-column="4" selection-end-line="690" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/dicom/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="490" column="22" lean-forward="false" selection-start-line="490" selection-start-column="22" selection-end-line="490" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/dicom/filewriter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="296" column="4" lean-forward="false" selection-start-line="296" selection-start-column="4" selection-end-line="296" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/_functools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/SIM.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="4" selection-end-column="19" />
+          <folding>
+            <element signature="e#635#672#0" expanded="false" />
+            <element signature="e#1684#1823#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/algorithms/LevelSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="12" lean-forward="false" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/_minimize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transformmesh.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="98" column="26" lean-forward="false" selection-start-line="98" selection-start-column="26" selection-end-line="98" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VBSegmentation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="1230" column="35" lean-forward="true" selection-start-line="1230" selection-start-column="35" selection-end-line="1230" selection-end-column="35" />
+          <folding>
+            <element signature="e#137#176#0" expanded="true" />
+            <element signature="e#1843#2795#0" expanded="false" />
+            <element signature="e#2853#3369#0" expanded="false" />
+            <element signature="e#3591#3696#0" expanded="false" />
+            <element signature="e#14502#16413#0" expanded="false" />
+            <element signature="e#14879#14920#0" expanded="false" />
+            <element signature="e#15590#16074#0" expanded="false" />
+            <element signature="e#16106#16239#0" expanded="false" />
+            <element signature="e#16911#18097#0" expanded="false" />
+            <element signature="e#18103#18139#0" expanded="false" />
+            <element signature="e#20235#36531#0" expanded="false" />
+            <element signature="e#20405#21126#0" expanded="false" />
+            <element signature="e#21201#21320#0" expanded="false" />
+            <element signature="e#22324#26228#0" expanded="false" />
+            <element signature="e#22904#26205#0" expanded="false" />
+            <element signature="e#24479#24969#0" expanded="false" />
+            <element signature="e#25160#25894#0" expanded="false" />
+            <element signature="e#25393#25539#0" expanded="false" />
+            <element signature="e#26275#33508#0" expanded="false" />
+            <element signature="e#27358#30909#0" expanded="false" />
+            <element signature="e#27696#27859#0" expanded="false" />
+            <element signature="e#28626#29975#0" expanded="false" />
+            <element signature="e#30040#30530#0" expanded="false" />
+            <element signature="e#30962#32488#0" expanded="false" />
+            <element signature="e#33930#34200#0" expanded="false" />
+            <element signature="e#34248#34446#0" expanded="false" />
+            <element signature="e#34482#34698#0" expanded="false" />
+            <element signature="e#34825#34990#0" expanded="false" />
+            <element signature="e#35034#35252#0" expanded="false" />
+            <element signature="e#35288#35482#0" expanded="false" />
+            <element signature="e#35525#35685#0" expanded="false" />
+            <element signature="e#36564#39909#0" expanded="false" />
+            <element signature="e#36791#37284#0" expanded="false" />
+            <element signature="e#37379#37563#0" expanded="false" />
+            <element signature="e#37805#37915#0" expanded="false" />
+            <element signature="e#38110#38396#0" expanded="false" />
+            <element signature="e#38438#38442#0" expanded="false" />
+            <element signature="e#39946#40647#0" expanded="false" />
+            <element signature="e#40899#41067#0" expanded="false" />
+            <element signature="e#41109#41286#0" expanded="false" />
+            <element signature="e#41328#41386#0" expanded="false" />
+            <element signature="e#41519#43088#0" expanded="false" />
+            <element signature="e#43097#43127#0" expanded="false" />
+            <element signature="e#43367#45719#0" expanded="false" />
+            <element signature="e#45772#46572#0" expanded="false" />
+            <element signature="e#48790#49041#0" expanded="false" />
+            <element signature="e#50013#50033#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VBSeg-DL/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

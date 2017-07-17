@@ -28,6 +28,7 @@ from vispy import io,gloo
 from vispy.scene import visuals
 from vispy.gloo import wrappers
 
+
 from icp import basicICP
 
 
@@ -479,14 +480,48 @@ def loadDICOM(dicominfo):
         k = k + 1
         vol_data.append(np.flip(np.flip(ds.pixel_array,axis=0),axis=1).astype(np.float32))
 
+    ds.save_as()
+
     vol_data = np.flip(vol_data, axis=0)
     # print 'vol data',vol_data
-    vol_data = ndimage.median_filter(vol_data,size=3)
-    vol_data = ndimage.gaussian_filter(np.array(vol_data),sigma=2,order=1)
+    # vol_data = ndimage.median_filter(vol_data,size=3)
+    vol_data = ndimage.gaussian_filter(np.array(vol_data),sigma=2,order=0)
     vol_data_forComp = np.rollaxis(np.rollaxis(vol_data,axis=1),axis=2)# we don't change vol_data_forComp so no need to copy vol_data
 
     print 'shape of vol_data:',vol_data.shape
     print 'shape of vol_data for computation:',vol_data_forComp.shape
+
+
+    if True:
+        vol = vol_data.copy()
+        vol = np.flip(np.flip(np.flip(vol,axis=0),axis=1),axis=2)
+        print 'shape of vol for observing',vol.shape
+        outputDicomDir = '/Users/mac/Downloads/Dicom Data/filteredVol'
+        if os.path.exists(outputDicomDir):
+            shutil.rmtree(outputDicomDir)
+        os.mkdir(outputDicomDir)
+
+        k = 0
+        for dcm in allDicoms:
+            filenameIn = dicomDir + '/%s' % dcm + '.dcm'
+            filenameOut = outputDicomDir + '/%s' % dcm + '.dcm'
+            if not os.path.isfile(filenameIn):
+                print filenameIn,'is not a file'
+            ds = dicom.read_file(filenameIn)
+
+            if not ds.SeriesNumber == 5:
+                continue
+
+            ds.StudyDate = time.strftime('%Y%m%d',time.localtime())
+            ds.SeriesDate = time.strftime('%Y%m%d',time.localtime())
+            pixelarray = vol[k].astype(np.uint16)
+            # for n, val in enumerate(pixelarray.flat):
+            #     if val < 300:
+            #         pixelarray.flat[n] = 0
+            ds.PixelData = pixelarray.tostring()
+            ds.save_as(filenameOut)
+            k += 1
+        print 'finished writing dicom data for obversing'
 
     # for x in range(vol_data.shape[0]):
     #     for y in range(vol_data.shape[1]):
@@ -581,9 +616,10 @@ def OptimizeMesh(mesh,volume):
         # these two parameters really affect the convergence and final result of the optimization process. try (1.,0.)
         # (.8,.2), and (.2,.8) for the eclipsoid case. Some results are funny.
         omega1 = .5
-        omega2 = .5
+        omega2 = .3
         signGradient = 1.
-        signPixel = 1. # put these two here to convinently modify. (-1.,-1.) for eclipsoid case
+        signPixel = 1. # put these two here to convinently modify. (-1.,-1.) for eclipsoid case. signPixel is critical
+        # for success
         # if the function is defined well, it can also converge to the right result without help of gradient
         # with gradient help, the convergence can be speeded up a lot
         # the initial guess is QUITE important for the final result. See transform.py
@@ -860,9 +896,9 @@ def OptimizeMesh(mesh,volume):
             graderr = opt.check_grad(E_I_B, gradient_EIB, S_I.verts.copy().reshape((nv * 3,)))
             print 'graderr for EIB when optimizing SI is:', graderr
 
-        # weights really affect
-        omega_EI = .95
-        omega_BI = .05
+        # weights really affect critically
+        omega_EI = .5
+        omega_BI = .5
         def fun(SIVerts):
             verts = SIVerts.reshape((nv,3))
 
@@ -993,7 +1029,7 @@ def OptimizeMesh(mesh,volume):
             # here, we can terminate the loop by checking whether the change of verts_SSM is small enough
         S_SSM.verts = verts_SSM.copy()
 
-        return verts_SSM
+        return verts_SSM.copy()
 
     def OptimizeSSM_ICP():
         verts_SSM = mesh.verts.copy()  # mesh is the mean mesh.
@@ -1016,7 +1052,11 @@ def OptimizeMesh(mesh,volume):
         return S_SSM.verts.copy()
 
     def OptimizeSB():
-        nv = S_SSM.verts.shape[0]
+        gridDim = (5, 5, 10, 3)
+        numcoords = gridDim[0] * gridDim[1] * gridDim[2] * gridDim[3]
+        tbounds = np.array(volume.pixelArray.shape)
+        nv = mesh.verts.shape[0]
+
         def E_I_B(SBVerts):
             verts_SB = SBVerts
             verts_SI = S_I.verts #
@@ -1039,7 +1079,7 @@ def OptimizeMesh(mesh,volume):
 
             e = 0
             return e
-        def TrivariageBSpline(tbounds,z,s,k=3):# z.ndim should be 4. the first 3 are the shape of the control vertices,
+        def TrivariateBSpline(tbounds,z,s,k=3):# z.ndim should be 4. the first 3 are the shape of the control vertices,
             # ,and shape[3]  should be 3 to contain the coordinate of the vertices. Note, if the number of voxel is x,
             # then the number of control points should be x + k - 1
             shape = z.shape[0:3] # the number of control points
@@ -1080,8 +1120,71 @@ def OptimizeMesh(mesh,volume):
         # tbounds = [1024,512,512]
         # spl = TrivariageBSpline(tbounds,z,[2,7,0])
         # print 'spline %s' % (spl)
+        @fn_timer
+        def genetateBasicFunc(tbounds,z,verts):
+            z = z.reshape(gridDim)
+
+            SBverts = verts.copy()
+            k = 3
+            shape = z.shape[0:3]  # the number of control points
+            shape = np.array(shape)
+            shape -= [k - 1, k - 1, k - 1]  # the number of voxels in each dimension
+            tx = np.zeros(shape=(shape[0] + 2 * k,))
+            tx[k:-k] = np.linspace(0., tbounds[0], shape[0])
+            tx[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[0])
+            # print 'tx:',tx
+            ty = np.zeros(shape=(shape[1] + 2 * k,))
+            ty[k:-k] = np.linspace(0., tbounds[1], shape[1])
+            ty[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[1])
+            # print 'ty:',ty
+            tz = np.zeros(shape=(shape[2] + 2 * k,))
+            tz[k:-k] = np.linspace(0., tbounds[2], shape[2])
+            tz[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[2])
+
+            shape = z.shape[0:3]  # the number of control points
+            Bx = []
+            for ii in range(shape[0]):
+                c = np.zeros((shape[0],), dtype=np.float32)
+                c[ii] = 1.
+                spl = BSpline(tx, c, k)
+                kp = 0
+                bvals = np.empty((SBverts.shape[0],), dtype=np.float32)
+                for v in SBverts:
+                    bvals[kp] = spl(v[0])
+                    kp += 1
+                Bx.append(bvals)
+            Bx = np.array(Bx)
+            By = []
+            for ii in range(shape[1]):
+                c = np.zeros((shape[1],), dtype=np.float32)
+                c[ii] = 1.
+                spl = BSpline(ty, c, k)
+                kp = 0
+                bvals = np.empty((SBverts.shape[0],), dtype=np.float32)
+                for v in SBverts:
+                    bvals[kp] = spl(v[1])
+                    kp += 1
+                By.append(bvals)
+            By = np.array(By)
+            Bz = []
+            for ii in range(shape[2]):
+                c = np.zeros((shape[2],), dtype=np.float32)
+                c[ii] = 1.
+                spl = BSpline(tz, c, k)
+                kp = 0
+                bvals = np.empty((SBverts.shape[0],), dtype=np.float32)
+                for v in SBverts:
+                    bvals[kp] = spl(v[2])
+                    kp += 1
+                Bz.append(bvals)
+            Bz = np.array(Bz)
+            # print Bx.shape,By.shape,Bz.shape
+
+            return Bx,By,Bz
+
         def updateSB(tbounds,z,verts):
             '''
+            to compute s_b according to the equation (4). verts is s_0
             this is a time consuming operation if len(verts) is too large
             Note: this will change verts
             :param tbounds:
@@ -1089,17 +1192,29 @@ def OptimizeMesh(mesh,volume):
             :param verts:
             :return:
             '''
-            for v in verts:
-                v += TrivariageBSpline(tbounds,z,v)
+            Bx,By,Bz = genetateBasicFunc(tbounds,z,verts)
 
-        gridDim = (5,5,10,3)
+            vs = []
+            kp = 0
+            for v in verts:
+                # v += TrivariateBSpline(tbounds,z,v)
+                for ii in range(gridDim[0]):
+                    for jj in range(gridDim[1]):
+                        for kk in range(gridDim[2]):
+                            v += z[ii][jj][kk] * Bx[ii][kp] * By[jj][kp] * Bz[kk][kp]
+                kp += 1
+                vs.append(v)
+            return np.array(vs)
+
+        omega_IB = .5
+        omega_SSM = .5
+        omega_SIM = .0
+
         def fun(z,tbounds,SBVerts):
             verts = SBVerts.reshape((nv, 3)).copy()
             z = z.reshape(gridDim)
-            updateSB(tbounds,z,verts)
-            omega_IB = .6
-            omega_SSM = .3
-            omega_SIM = .1
+            verts = updateSB(tbounds,z,verts)
+
             eIB = omega_IB * E_I_B(verts)
             eSSM = omega_SSM * E_SSM(verts)
             eSIM = omega_SIM * E_SIM(verts)
@@ -1107,36 +1222,82 @@ def OptimizeMesh(mesh,volume):
 
             return e
 
-        def gradient(z,tbounds,SBVerts):
-            pass
+        def G_I_B_n_SSM(z,tbounds, verts,refverts):
+            SIverts = refverts.copy()
 
-        nv = mesh.verts.shape[0]
-        def callback(verts):
-            verts = verts.reshape((nv, 3))
+            Bx,By,Bz = genetateBasicFunc(tbounds,z,verts)
+
+            verts = updateSB(tbounds, z, verts)  # S_B
+            verts = verts - SIverts
+            g = []
+            for ii in range(gridDim[0]):
+                for jj in range(gridDim[1]):
+                    for kk in range(gridDim[2]):
+                        gx = 0.
+                        gy = 0.
+                        gz = 0.
+                        kp = 0
+                        for v in verts:
+                            kg = v * Bx[ii][kp] * By[jj][kp] * Bz[kk][kp]
+                            gx += kg[0]
+                            gy += kg[1]
+                            gz += kg[2]
+                            kp += 1
+
+                        g.append(gx)
+                        g.append(gy)
+                        g.append(gz)
+            return np.array(g).reshape((numcoords,))
+
+        def G_SIM(z,tbounds,verts):
+            return np.zeros(shape=(z.shape[0] * z.shape[1] * z.shape[2] * 3,))
+
+        def gradient(z,tbounds,SBVerts):
+            verts = SBVerts.reshape((nv, 3)).copy()
+            z = z.reshape(gridDim)
+
+            gIB = omega_IB * G_I_B_n_SSM(z,tbounds,verts.copy(),S_I.verts)
+            gSSM = omega_SSM * G_I_B_n_SSM(z,tbounds,verts.copy(),S_SSM.verts)
+            gSIM = omega_SIM * G_SIM(z,tbounds,verts.copy())
+            g = gIB + gSSM + gSIM
+
+            print g
+            return g
+
+        if True:
+            print 'check gradient in SB optimization....'
+            graderr = opt.check_grad(fun, gradient,np.ones(shape=(numcoords,)),*[tbounds,S_B.verts.copy()])
+            print 'graderr when optimizing SB is:', graderr
+
+        def callback(z,tbounds,verts):
+            verts = verts.reshape((nv, 3)).copy()
+            z = z.reshape(gridDim)
+            verts = updateSB(tbounds, z, verts)
             global km
             openmesh.writeOff(dirname + '/%s_registered_SB.off' % km, verts, mesh.faces)
             km += 1
 
-        tbounds = np.array(volume.pixelArray.shape)
-        res = opt.minimize(fun, np.ones(shape = gridDim), args=(tbounds,S_B.verts),method='l-bfgs-b',jac=False,
-                           callback=None,options={'maxiter': 5, 'disp': True})
+        res = opt.minimize(fun, np.zeros(shape = (numcoords,)),\
+                           args=(tbounds,S_B.verts.copy()),method='l-bfgs-b',jac=gradient,
+                           callback=callback,options={'maxiter': 100, 'disp': True})
 
-        updateSB(tbounds,res['x'],S_B.verts)
-        return S_B.verts
+        S_B.verts = updateSB(tbounds,res['x'].reshape(gridDim),S_B.verts)
+        return S_B.verts.copy()
 
     #repeat optimization until converge
-    for k in range(1):
-        print '------------> Optimizing SI <-------------'
-        verts = OptimizeSI()
-        S_B.verts = verts
-        print '------------> Optimizing SSM <-------------'
-        verts = OptimizeSSM_ICP()
-        # print '------------> Optimizing SB <-------------'
-        # verts = OptimizeSB()
+    for k in range(10):
+        SIverts = None
+        SSMverts = None
+        SBverts = None
 
-        S_B.verts = verts # S_I.verts
+        # print '------------> Optimizing SI <-------------'
+        # SIverts = OptimizeSI() # will update S_I.verts
+        # print '------------> Optimizing SSM <-------------'
+        # SSMverts = OptimizeSSM_ICP() # will update S_SSM.verts
+        print '------------> Optimizing SB <-------------'
+        SBverts = OptimizeSB() # will update S_B.verts
 
-    return S_B
+    return SIverts, SSMverts,SBverts
 
 def main():
     ''' Segment a 3D spine Dicom image with pre-trained mesh model.'''
@@ -1222,8 +1383,16 @@ def main():
     # S.show()
     itrans = [-trans[0],-trans[1],-trans[2]]
     iscale = [1./scale[0],1./scale[1],1./scale[2]]
-    transformmesh.transform(S.verts,itrans,iscale)
-    openmesh.writeOff('./Data/registered_reg1.off', S.verts, S.faces)
+    if S[0].all():
+        transformmesh.transform(S[0],itrans,iscale)
+        openmesh.writeOff('./Data/registered_reg1_SI.off', S[0], meanMesh.faces)
+    if S[1].all():
+        transformmesh.transform(S[1], itrans, iscale)
+        openmesh.writeOff('./Data/registered_reg1_SSM.off', S[1], meanMesh.faces)
+    if S[2].all():
+        # pass
+        transformmesh.transform(S[2], itrans, iscale)
+        openmesh.writeOff('./Data/registered_reg1_SB.off', S[2], meanMesh.faces)
 
     # vispy.app.run()
 
