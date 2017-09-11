@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="81a1f552-904f-438b-b7a6-3f8be6115fe0" name="Default" comment="update">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/__init__.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/LevelSet.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/SIM.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/SegAlgo.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/algorithms/__init__.py" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Data/registered_reg1.off" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/10_registered_SI.off" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/11_registered_SI.off" afterPath="" />
@@ -36,8 +31,13 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/7_registered_SI.off" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/8_registered_SI.off" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/Data/tmp/9_registered_SI.off" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/资料/Active Shape Models- Their Training and Application.pdf" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Statistical Interspace Models.pdf" afterPath="$PROJECT_DIR$/Statistical Interspace Models.pdf" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/colormaps.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/hausdorff.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/meshio.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/transformmesh.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/utilities.py" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../VBSeg-DL/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../VBSeg-DL/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Vertebra-Body-Segmentation.iml" afterPath="$PROJECT_DIR$/.idea/Vertebra-Body-Segmentation.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
@@ -46,7 +46,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data/transformed_reg1_simplifiedTo4000.off" afterPath="$PROJECT_DIR$/Data/transformed_reg1_simplifiedTo4000.off" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Data/transformed_sphere.off" afterPath="$PROJECT_DIR$/Data/transformed_sphere.off" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VBSegmentation.py" afterPath="$PROJECT_DIR$/VBSegmentation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transformmesh.py" afterPath="$PROJECT_DIR$/transformmesh.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/algorithms/LevelSet.py" afterPath="$PROJECT_DIR$/algorithms/LevelSet.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/algorithms/SIM.py" afterPath="$PROJECT_DIR$/algorithms/SIM.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/algorithms/SegAlgo.py" afterPath="$PROJECT_DIR$/algorithms/SegAlgo.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,115 +57,11 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="Vertebra-Body-Segmentation" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="VBSegmentation.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VBSegmentation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="103">
-              <caret line="1230" column="35" lean-forward="true" selection-start-line="1230" selection-start-column="35" selection-end-line="1230" selection-end-column="35" />
-              <folding>
-                <element signature="e#137#176#0" expanded="true" />
-                <element signature="e#1843#2795#0" expanded="false" />
-                <element signature="e#2853#3369#0" expanded="false" />
-                <element signature="e#3591#3696#0" expanded="false" />
-                <element signature="e#14502#16413#0" expanded="false" />
-                <element signature="e#14879#14920#0" expanded="false" />
-                <element signature="e#15590#16074#0" expanded="false" />
-                <element signature="e#16106#16239#0" expanded="false" />
-                <element signature="e#16911#18097#0" expanded="false" />
-                <element signature="e#18103#18139#0" expanded="false" />
-                <element signature="e#20235#36531#0" expanded="false" />
-                <element signature="e#20405#21126#0" expanded="false" />
-                <element signature="e#21201#21320#0" expanded="false" />
-                <element signature="e#22324#26228#0" expanded="false" />
-                <element signature="e#22904#26205#0" expanded="false" />
-                <element signature="e#24479#24969#0" expanded="false" />
-                <element signature="e#25160#25894#0" expanded="false" />
-                <element signature="e#25393#25539#0" expanded="false" />
-                <element signature="e#26275#33508#0" expanded="false" />
-                <element signature="e#27358#30909#0" expanded="false" />
-                <element signature="e#27696#27859#0" expanded="false" />
-                <element signature="e#28626#29975#0" expanded="false" />
-                <element signature="e#30040#30530#0" expanded="false" />
-                <element signature="e#30962#32488#0" expanded="false" />
-                <element signature="e#33930#34200#0" expanded="false" />
-                <element signature="e#34248#34446#0" expanded="false" />
-                <element signature="e#34482#34698#0" expanded="false" />
-                <element signature="e#34825#34990#0" expanded="false" />
-                <element signature="e#35034#35252#0" expanded="false" />
-                <element signature="e#35288#35482#0" expanded="false" />
-                <element signature="e#35525#35685#0" expanded="false" />
-                <element signature="e#36564#39909#0" expanded="false" />
-                <element signature="e#36791#37284#0" expanded="false" />
-                <element signature="e#37379#37563#0" expanded="false" />
-                <element signature="e#37805#37915#0" expanded="false" />
-                <element signature="e#38110#38396#0" expanded="false" />
-                <element signature="e#38438#38442#0" expanded="false" />
-                <element signature="e#39946#40647#0" expanded="false" />
-                <element signature="e#40899#41067#0" expanded="false" />
-                <element signature="e#41109#41286#0" expanded="false" />
-                <element signature="e#41328#41386#0" expanded="false" />
-                <element signature="e#41519#43088#0" expanded="false" />
-                <element signature="e#43097#43127#0" expanded="false" />
-                <element signature="e#43367#45719#0" expanded="false" />
-                <element signature="e#45772#46572#0" expanded="false" />
-                <element signature="e#48790#49041#0" expanded="false" />
-                <element signature="e#50013#50033#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VBSegDL.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../VBSeg-DL/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="transformmesh.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/transformmesh.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="98" column="26" lean-forward="false" selection-start-line="98" selection-start-column="26" selection-end-line="98" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_minimize.py" pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/_minimize.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -174,9 +72,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>matrix</find>
-      <find>normals</find>
-      <find>copy</find>
       <find>gradient</find>
       <find>setpixelar</find>
       <find>self.mesh_data</find>
@@ -197,20 +92,25 @@
       <find>166</find>
       <find>numcall</find>
       <find>print</find>
-      <find>updateSB</find>
       <find>utilities</find>
       <find>genetateBasicFunc</find>
       <find>TrivariateBSpline</find>
+      <find>matpl</find>
+      <find>updateSB</find>
+      <find>G_I_B_n_SSM</find>
+      <find>_updateVolume</find>
+      <find>plot</find>
+      <find>'.'</find>
+      <find>myPrint</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../VBSeg-DL" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/hausdorff.py" />
-        <option value="$PROJECT_DIR$/utilities.py" />
         <option value="$PROJECT_DIR$/../../../../../NLP.py-develop/nlp/model/amplmodel.py" />
         <option value="$PROJECT_DIR$/../../../../../ipopt-0.1.3/setup.py" />
         <option value="$PROJECT_DIR$/colormaps.py" />
@@ -225,12 +125,18 @@
         <option value="$PROJECT_DIR$/transformmesh.py" />
         <option value="$PROJECT_DIR$/algorithms/__init__.py" />
         <option value="$PROJECT_DIR$/__init__.py" />
-        <option value="$PROJECT_DIR$/algorithms/SIM.py" />
-        <option value="$PROJECT_DIR$/algorithms/SegAlgo.py" />
-        <option value="$PROJECT_DIR$/VBSegmentation.py" />
-        <option value="$PROJECT_DIR$/algorithms/LevelSet.py" />
         <option value="$PROJECT_DIR$/../VBSeg-DL/__init__.py" />
         <option value="$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py" />
+        <option value="$PROJECT_DIR$/../SplineReconFromBiXRay/__init__.py" />
+        <option value="$PROJECT_DIR$/../../../双X光脊柱重建/SplineReconFromBiXRay/__init__.py" />
+        <option value="$PROJECT_DIR$/../../../../../ProgrammingStudy/Python/Algorithms/PCA2D.py" />
+        <option value="$PROJECT_DIR$/utilities.py" />
+        <option value="$PROJECT_DIR$/utilities/__init__.py" />
+        <option value="$PROJECT_DIR$/algorithms/SIM.py" />
+        <option value="$PROJECT_DIR$/algorithms/SegAlgo.py" />
+        <option value="$PROJECT_DIR$/algorithms/LevelSet.py" />
+        <option value="$PROJECT_DIR$/VBSegmentation.py" />
+        <option value="$PROJECT_DIR$/utilities/utilities.py" />
       </list>
     </option>
   </component>
@@ -274,50 +180,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VBSeg-DL" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Vertebra-Body-Segmentation" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="algorithms" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="Vertebra-Body-Segmentation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Vertebra-Body-Segmentation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Vertebra-Body-Segmentation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Vertebra-Body-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="utilities" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../S4DMake/python-install/bin/python2.7" />
   </component>
   <component name="RunDashboard">
@@ -333,61 +217,24 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.VBSegmentation">
-    <configuration default="false" name="transformmesh" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="PCA2D" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../ProgrammingStudy/Python/Algorithms" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Vertebra-Body-Segmentation" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/transformmesh.py" />
+      <module name="VBSeg-DL" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../../ProgrammingStudy/Python/Algorithms/PCA2D.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
     </configuration>
-    <configuration default="false" name="VBSegmentation" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="/usr/bin/python" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Vertebra-Body-Segmentation" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VBSegmentation.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithms" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Vertebra-Body-Segmentation" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/__init__.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="SIM" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="SIM" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -403,9 +250,8 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
     </configuration>
-    <configuration default="false" name="SegAlgo" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="SegAlgo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -421,37 +267,40 @@
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
     </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+    <configuration name="VBSegmentation" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Vertebra-Body-Segmentation" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VBSegmentation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/algorithms" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="Vertebra-Body-Segmentation" />
-      <option name="SCRIPT_NAME" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/algorithms/__init__.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Vertebra-Body-Segmentation" />
-      <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -470,7 +319,34 @@
       <option name="TEST_TYPE" value="TEST_SCRIPT" />
       <option name="PATTERN" value="" />
       <option name="USE_PATTERN" value="false" />
-      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Vertebra-Body-Segmentation" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Vertebra-Body-Segmentation" />
     </configuration>
     <configuration default="true" type="tests" factoryName="Nosetests">
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -504,19 +380,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.transformmesh" />
-      <item index="1" class="java.lang.String" itemvalue="Python.VBSegmentation" />
-      <item index="2" class="java.lang.String" itemvalue="Python.__init__" />
-      <item index="3" class="java.lang.String" itemvalue="Python.SIM" />
-      <item index="4" class="java.lang.String" itemvalue="Python.SegAlgo" />
+      <item index="0" class="java.lang.String" itemvalue="Python.VBSegmentation" />
+      <item index="1" class="java.lang.String" itemvalue="Python.__init__" />
+      <item index="2" class="java.lang.String" itemvalue="Python.SIM" />
+      <item index="3" class="java.lang.String" itemvalue="Python.SegAlgo" />
+      <item index="4" class="java.lang.String" itemvalue="Python.PCA2D" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.VBSegmentation" />
-        <item index="1" class="java.lang.String" itemvalue="Python.SegAlgo" />
-        <item index="2" class="java.lang.String" itemvalue="Python.SIM" />
-        <item index="3" class="java.lang.String" itemvalue="Python.__init__" />
-        <item index="4" class="java.lang.String" itemvalue="Python.transformmesh" />
+        <item index="1" class="java.lang.String" itemvalue="Python.PCA2D" />
+        <item index="2" class="java.lang.String" itemvalue="Python.SegAlgo" />
+        <item index="3" class="java.lang.String" itemvalue="Python.SIM" />
+        <item index="4" class="java.lang.String" itemvalue="Python.__init__" />
       </list>
     </recent_temporary>
   </component>
@@ -566,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1500260331721</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="update">
+      <created>1500274249881</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1500274249881</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -579,20 +462,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="789" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1440" height="789" extended-state="0" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1988555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17596567" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6199702" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.57228017" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3695976" sideWeight="0.5028612" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4351714" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935917" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3919523" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19313304" sideWeight="0.49527666" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6736215" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39940387" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26251787" sideWeight="0.50472337" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -606,6 +488,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/../SplineReconFromBiXRay" />
+    </ignored-roots>
     <MESSAGE value="update" />
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
@@ -618,35 +503,11 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="15" />
+      <option name="time" value="24" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Library/Python/2.7/site-packages/numpy/lib/function_base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25840">
-          <caret line="1552" column="27" lean-forward="false" selection-start-line="1552" selection-start-column="8" selection-end-line="1552" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../../pyICP-master 2/pyICP/src/main.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../pyICP-master 2/pyICP/src/rigid_transform_3D.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../pyICP-master 2/pyICP/src/myICP.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../pyicp-master/build/lib/pyicp/pyicp.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../pyicp-master/build/lib/pyicp/primjer.py" />
-    <entry file="file://$PROJECT_DIR$/pyicp/pyicp.py" />
-    <entry file="file://$PROJECT_DIR$/pyicp/primjer.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../pycpreg-master/pointcloud_generator.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../pycpreg-master/icp.py" />
-    <entry file="file://$PROJECT_DIR$/../../../../../PythonICPvtk-master/vtk_ICP_real_App.py" />
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/ndimage/fourier.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="80" column="4" lean-forward="false" selection-start-line="80" selection-start-column="4" selection-end-line="80" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/scipy/ndimage/interpolation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="161">
@@ -675,18 +536,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/lbfgsb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="320" column="0" lean-forward="false" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/posix.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="535" column="4" lean-forward="false" selection-start-line="535" selection-start-column="4" selection-end-line="535" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -694,7 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
           <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -744,7 +596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="1278" column="18" lean-forward="true" selection-start-line="1278" selection-start-column="8" selection-end-line="1278" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -759,7 +610,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="86">
           <caret line="2364" column="4" lean-forward="false" selection-start-line="2364" selection-start-column="4" selection-end-line="2364" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -774,7 +624,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
           <caret line="1898" column="0" lean-forward="false" selection-start-line="1898" selection-start-column="0" selection-end-line="1898" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -782,7 +631,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -790,6 +638,191 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
           <caret line="91" column="4" lean-forward="false" selection-start-line="91" selection-start-column="4" selection-end-line="91" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/numpy/core/multiarray.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="5475" column="4" lean-forward="false" selection-start-line="5475" selection-start-column="4" selection-end-line="5475" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/icp/basicICP.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2015">
+          <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/functools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="49" column="14" lean-forward="true" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/dicom/dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="490" column="22" lean-forward="false" selection-start-line="490" selection-start-column="22" selection-end-line="490" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/dicom/filewriter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="296" column="4" lean-forward="false" selection-start-line="296" selection-start-column="4" selection-end-line="296" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/_functools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/_minimize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VBSeg-DL/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/lbfgsb.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2384">
+          <caret line="338" column="29" lean-forward="true" selection-start-line="338" selection-start-column="29" selection-end-line="338" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../SplineReconFromBiXRay/__init__.py" />
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/interpolate/_bsplines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="178" column="8" lean-forward="false" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/matplotlib/axes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="26">
+          <caret line="4005" column="8" lean-forward="false" selection-start-line="4005" selection-start-column="8" selection-end-line="4005" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/numpy/random/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="101" column="32" lean-forward="false" selection-start-line="101" selection-start-column="32" selection-end-line="101" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/numpy/random/mtrand.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="2198" column="4" lean-forward="false" selection-start-line="2198" selection-start-column="4" selection-end-line="2198" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="3796" column="21" lean-forward="false" selection-start-line="3796" selection-start-column="21" selection-end-line="3796" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.6/Extras/lib/python/matplotlib/axes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="3801" column="13" lean-forward="false" selection-start-line="3801" selection-start-column="10" selection-end-line="3801" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../双X光脊柱重建/SplineReconFromBiXRay/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="18" lean-forward="false" selection-start-line="0" selection-start-column="18" selection-end-line="0" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/optimize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="735" column="0" lean-forward="false" selection-start-line="735" selection-start-column="0" selection-end-line="735" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../../ProgrammingStudy/Python/Algorithms/PCA2D.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="27" lean-forward="false" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+          <folding>
+            <element signature="e#141#159#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transformmesh.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="21" lean-forward="false" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.2/python_stubs/348993582/posix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="484" column="4" lean-forward="false" selection-start-line="484" selection-start-column="4" selection-end-line="484" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/glob.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-188">
+          <caret line="17" column="4" lean-forward="false" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="70" lean-forward="true" selection-start-line="4" selection-start-column="70" selection-end-line="4" selection-end-column="70" />
           <folding />
         </state>
       </provider>
@@ -802,103 +835,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/interpolate/_bsplines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2342">
-          <caret line="178" column="8" lean-forward="false" selection-start-line="178" selection-start-column="8" selection-end-line="178" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/SegAlgo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="12" lean-forward="false" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="21" lean-forward="true" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/numpy/core/multiarray.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="5475" column="4" lean-forward="false" selection-start-line="5475" selection-start-column="4" selection-end-line="5475" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/icp/basicICP.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2015">
-          <caret line="172" column="47" lean-forward="false" selection-start-line="172" selection-start-column="47" selection-end-line="172" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/functools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="49" column="14" lean-forward="true" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utilities.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="3" column="23" lean-forward="true" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+        <state relative-caret-position="204">
+          <caret line="12" column="38" lean-forward="false" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
           <folding>
-            <element signature="e#135#1129#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/optimize.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="690" column="4" lean-forward="false" selection-start-line="690" selection-start-column="4" selection-end-line="690" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/dicom/dataset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="490" column="22" lean-forward="false" selection-start-line="490" selection-start-column="22" selection-end-line="490" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/dicom/filewriter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="296" column="4" lean-forward="false" selection-start-line="296" selection-start-column="4" selection-end-line="296" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/348993582/_functools.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
-          <caret line="41" column="8" lean-forward="false" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/algorithms/SIM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="4" selection-end-column="19" />
-          <folding>
-            <element signature="e#635#672#0" expanded="false" />
-            <element signature="e#1684#1823#0" expanded="false" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -906,99 +848,56 @@
     <entry file="file://$PROJECT_DIR$/algorithms/LevelSet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="12" lean-forward="false" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/scipy/optimize/_minimize.py">
+    <entry file="file://$PROJECT_DIR$/algorithms/SIM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/transformmesh.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="98" column="26" lean-forward="false" selection-start-line="98" selection-start-column="26" selection-end-line="98" selection-end-column="26" />
+        <state relative-caret-position="102">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#188#41299#0" expanded="false" />
+            <element signature="e#646#18265#0" expanded="false" />
+            <element signature="e#18306#22002#0" expanded="false" />
+            <element signature="e#22047#22802#0" expanded="false" />
+            <element signature="e#22842#40716#0" expanded="false" />
+            <element signature="e#40802#41256#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utilities/utilities.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="449" column="0" lean-forward="false" selection-start-line="449" selection-start-column="0" selection-end-line="449" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#1596#2548#0" expanded="false" />
+            <element signature="e#2606#3122#0" expanded="false" />
+            <element signature="e#3344#3449#0" expanded="false" />
+            <element signature="e#3479#4565#0" expanded="false" />
+            <element signature="e#4605#4715#0" expanded="false" />
+            <element signature="e#4743#10040#0" expanded="false" />
+            <element signature="e#10068#14218#0" expanded="false" />
+            <element signature="e#14267#14863#0" expanded="false" />
+            <element signature="e#14905#20731#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VBSegmentation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="1230" column="35" lean-forward="true" selection-start-line="1230" selection-start-column="35" selection-end-line="1230" selection-end-column="35" />
+        <state relative-caret-position="152">
+          <caret line="9" column="24" lean-forward="true" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
           <folding>
-            <element signature="e#137#176#0" expanded="true" />
-            <element signature="e#1843#2795#0" expanded="false" />
-            <element signature="e#2853#3369#0" expanded="false" />
-            <element signature="e#3591#3696#0" expanded="false" />
-            <element signature="e#14502#16413#0" expanded="false" />
-            <element signature="e#14879#14920#0" expanded="false" />
-            <element signature="e#15590#16074#0" expanded="false" />
-            <element signature="e#16106#16239#0" expanded="false" />
-            <element signature="e#16911#18097#0" expanded="false" />
-            <element signature="e#18103#18139#0" expanded="false" />
-            <element signature="e#20235#36531#0" expanded="false" />
-            <element signature="e#20405#21126#0" expanded="false" />
-            <element signature="e#21201#21320#0" expanded="false" />
-            <element signature="e#22324#26228#0" expanded="false" />
-            <element signature="e#22904#26205#0" expanded="false" />
-            <element signature="e#24479#24969#0" expanded="false" />
-            <element signature="e#25160#25894#0" expanded="false" />
-            <element signature="e#25393#25539#0" expanded="false" />
-            <element signature="e#26275#33508#0" expanded="false" />
-            <element signature="e#27358#30909#0" expanded="false" />
-            <element signature="e#27696#27859#0" expanded="false" />
-            <element signature="e#28626#29975#0" expanded="false" />
-            <element signature="e#30040#30530#0" expanded="false" />
-            <element signature="e#30962#32488#0" expanded="false" />
-            <element signature="e#33930#34200#0" expanded="false" />
-            <element signature="e#34248#34446#0" expanded="false" />
-            <element signature="e#34482#34698#0" expanded="false" />
-            <element signature="e#34825#34990#0" expanded="false" />
-            <element signature="e#35034#35252#0" expanded="false" />
-            <element signature="e#35288#35482#0" expanded="false" />
-            <element signature="e#35525#35685#0" expanded="false" />
-            <element signature="e#36564#39909#0" expanded="false" />
-            <element signature="e#36791#37284#0" expanded="false" />
-            <element signature="e#37379#37563#0" expanded="false" />
-            <element signature="e#37805#37915#0" expanded="false" />
-            <element signature="e#38110#38396#0" expanded="false" />
-            <element signature="e#38438#38442#0" expanded="false" />
-            <element signature="e#39946#40647#0" expanded="false" />
-            <element signature="e#40899#41067#0" expanded="false" />
-            <element signature="e#41109#41286#0" expanded="false" />
-            <element signature="e#41328#41386#0" expanded="false" />
-            <element signature="e#41519#43088#0" expanded="false" />
-            <element signature="e#43097#43127#0" expanded="false" />
-            <element signature="e#43367#45719#0" expanded="false" />
-            <element signature="e#45772#46572#0" expanded="false" />
-            <element signature="e#48790#49041#0" expanded="false" />
-            <element signature="e#50013#50033#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VBSeg-DL/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../VBSeg-DL/VBSegDL.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#137#160#0" expanded="true" />
+            <element signature="e#239#5074#0" expanded="false" />
+            <element signature="e#454#474#0" expanded="false" />
+            <element signature="e#4539#4663#0" expanded="false" />
+            <element signature="e#4723#4850#0" expanded="false" />
+            <element signature="e#4910#5074#0" expanded="false" />
           </folding>
         </state>
       </provider>

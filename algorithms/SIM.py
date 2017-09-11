@@ -1,21 +1,22 @@
-
-
-from . import SegAlgo
+from SegAlgo import *
 
 class SIM(SegAlgo):
-    def __init__(self):
-        pass
+    def __init__(self,mesh, volume):
+        super(SIM,self).__init__(mesh,volume)
 
     @fn_timer
-    def Optimize(self,mesh,volume):
+    def Optimize(self,*args,**kwargs):
         ''' Optimize the mesh.'''
+        mesh = self._mesh
+        volume = self._volume
+
         S_I = copy.copy(mesh)
         S_B = copy.copy(mesh)
         S_SSM = copy.copy(mesh)
 
         global km
         km = 1
-        dirname = '../Data/tmp'
+        dirname = './Data/tmp'
         if os.path.exists(dirname):
             shutil.rmtree(dirname)
         os.mkdir(dirname)
@@ -25,29 +26,29 @@ class SIM(SegAlgo):
 
             # print 'number of vertices used:',nv
 
-            # def showMeshAndNormal():
-            #     '''
-            #     To test if the normals is pointing from inside to outlide and if the ordering of the normals is right.
-            #     :return:
-            #     '''
-            #     m = visuals.Mesh(S_B.verts, mesh.faces)
-            #     l = visuals.Line()
-            #     view.add(m)
-            #     outline_p = []
-            #     k = 0
-            #     for v in S_B.verts:
-            #         outline_p.append(v)
-            #         outline_p.append(v + normals[k])
-            #         k += 1
-            #
-            #     outline_p = np.array(outline_p)
-            #
-            #     outline = visuals.Line(pos=outline_p, color=(0.1, 0.1, 0.1, 1.), width=1,
-            #                            connect='segments', method='gl', antialias=False)
-            #     view.add(outline)
-            #     vispy.app.run()
-            #
-            # # showMeshAndNormal()
+            def showMeshAndNormal():
+                '''
+                To test if the normals is pointing from inside to outlide and if the ordering of the normals is right.
+                :return:
+                '''
+                m = visuals.Mesh(S_B.verts, mesh.faces)
+                l = visuals.Line()
+                view.add(m)
+                outline_p = []
+                k = 0
+                for v in S_B.verts:
+                    outline_p.append(v)
+                    outline_p.append(v + normals[k])
+                    k += 1
+
+                outline_p = np.array(outline_p)
+
+                outline = visuals.Line(pos=outline_p, color=(0.1, 0.1, 0.1, 1.), width=1,
+                                       connect='segments', method='gl', antialias=False)
+                view.add(outline)
+                vispy.app.run()
+
+            # showMeshAndNormal()
 
             def normalizeVec(vec):
                 '''
@@ -326,7 +327,7 @@ class SIM(SegAlgo):
                 graderr = opt.check_grad(E_I, gradient_EI, S_I.verts.copy().reshape((nv * 3,)))
                 print 'graderr for EI when optimizing SI is:', graderr
 
-            refMesh = S_SSM  # original is S_B
+            refMesh = S_B  # original is S_B
 
             def E_I_B(SIVerts):
                 SIVerts = SIVerts.reshape((nv, 3))
@@ -515,7 +516,108 @@ class SIM(SegAlgo):
             return S_SSM.verts.copy()
 
         def OptimizeSB():
-            nv = S_SSM.verts.shape[0]
+            gridDim = (5, 5, 5, 3)  # each dim must be > 5
+            numcoords = gridDim[0] * gridDim[1] * gridDim[2] * gridDim[
+                3]  # number of coordinates of control points when flattened
+            tbounds = np.array(volume.vol_data_forComp.shape)
+            nv = mesh.verts.shape[0]
+
+            @fn_timer
+            def genetateBSplineBaseVals(tbounds, gridDim, verts):
+                '''
+                compute the BSpline values of each BSpline basic function on all vertex in verts
+                :param tbounds:
+                :param z:
+                :param verts:
+                :return:
+                '''
+                SBverts = verts.copy()
+                k = 3
+                shape = gridDim[0:3]  # the number of control points
+                shape = np.array(shape)
+                shape -= [k - 1, k - 1, k - 1]  # the number of voxels in each dimension
+                tx = np.zeros(shape=(shape[0] + 2 * k,))
+                tx[k:-k] = np.linspace(0., tbounds[0], shape[0])
+                tx[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[0])
+                # print 'tx:',tx
+                ty = np.zeros(shape=(shape[1] + 2 * k,))
+                ty[k:-k] = np.linspace(0., tbounds[1], shape[1])
+                ty[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[1])
+                # print 'ty:',ty
+                tz = np.zeros(shape=(shape[2] + 2 * k,))
+                tz[k:-k] = np.linspace(0., tbounds[2], shape[2])
+                tz[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[2])
+
+                print 'tx', tx
+                print 'ty', ty
+                print 'tz', tz
+
+                shape = gridDim[0:3]  # the number of control points
+                Bx = []
+                BasicX = []
+                for ii in range(shape[0]):
+                    c = np.zeros((shape[0],), dtype=np.float32)
+                    c[ii] = 1.
+                    spl = BSpline(tx, c, k)
+                    bvals = map(spl, SBverts.transpose()[0])
+                    Bx.append(bvals)
+                    BasicX.append(spl)
+                Bx = np.array(Bx, dtype=np.float32)
+
+                By = []
+                BasicY = []
+                for ii in range(shape[1]):
+                    c = np.zeros((shape[1],), dtype=np.float32)
+                    c[ii] = 1.
+                    spl = BSpline(ty, c, k)
+                    bvals = map(spl, SBverts.transpose()[1])
+                    By.append(bvals)
+                    BasicY.append(spl)
+                By = np.array(By, dtype=np.float32)
+
+                Bz = []
+                BasicZ = []
+                for ii in range(shape[2]):
+                    c = np.zeros((shape[2],), dtype=np.float32)
+                    c[ii] = 1.
+                    spl = BSpline(tz, c, k)
+                    bvals = map(spl, SBverts.transpose()[2])
+                    Bz.append(bvals)
+                    BasicZ.append(spl)
+                Bz = np.array(Bz, dtype=np.float32)
+                # print Bx.shape,By.shape,Bz.shape
+
+                return tx, ty, tz, Bx, By, Bz, BasicX, BasicY, BasicZ
+
+            # Note: the s_{0}^p is unchanged during the optimization, we can compute the Bx,By,Bz once and use them many times
+            tx, ty, tz, Bx, By, Bz, BasicX, BasicY, BasicZ = genetateBSplineBaseVals(tbounds, gridDim,
+                                                                                     S_B._verts.copy())
+
+            # for ii in range(gridDim[0]):
+            #     for jj in range(gridDim[1]):
+            #         for kk in range(gridDim[2]):
+            #             z = Bx[ii] * By[jj] * Bz[kk]
+            # print 'ii,jj,kk:',ii,jj,kk
+            # print 'z[0]:',z[0]
+            # @fn_timer
+            def updateSB(z, verts):
+                '''
+                to compute s_b according to the equation (4). verts is s_0
+                this is a time consuming operation if len(verts) is too large
+                Note: this will change verts
+                :param tbounds:
+                :param z:
+                :param verts:
+                :return:
+                '''
+                vv = np.zeros(shape=(3, verts.shape[0]), dtype=np.float32)
+                z = z.reshape(gridDim)
+                for ii in range(gridDim[0]):
+                    for jj in range(gridDim[1]):
+                        for kk in range(gridDim[2]):
+                            vv += (z[ii][jj][kk]).reshape(3, 1) * (Bx[ii] * By[jj] * Bz[kk])
+                vs = verts + vv.transpose()
+                return np.array(vs)
 
             def E_I_B(SBVerts):
                 verts_SB = SBVerts
@@ -534,207 +636,303 @@ class SIM(SegAlgo):
                 e = np.sum(verts_BSSM * verts_BSSM) / 2.
                 return e
 
+            # @fn_timer
+            def G_I_B_n_SSM(z, verts, refverts):
+                SIverts = refverts.copy()
+
+                verts = updateSB(z, verts)  # S_B
+                verts = verts - SIverts
+                g = []
+                for ii in range(gridDim[0]):
+                    for jj in range(gridDim[1]):
+                        for kk in range(gridDim[2]):
+                            vv = verts.transpose() * (Bx[ii] * By[jj] * Bz[kk])
+                            vv = vv.sum(axis=1)
+                            g.append(vv[0])
+                            g.append(vv[1])
+                            g.append(vv[2])
+                            # print 'when computing gradient'
+                            # print 'ii,jj,kk:', ii, jj, kk
+                            # print 'vv[0]:', vv[0]
+                return np.array(g).reshape((numcoords,))
+
             def E_SIM(SBVerts):
                 verts_SB = SBVerts
 
                 e = 0
                 return e
 
-            def TrivariateBSpline(tbounds, z, s,
-                                  k=3):  # z.ndim should be 4. the first 3 are the shape of the control vertices,
-                # ,and shape[3]  should be 3 to contain the coordinate of the vertices. Note, if the number of voxel is x,
-                # then the number of control points should be x + k - 1
-                shape = z.shape[0:3]  # the number of control points
-                shape = np.array(shape)
-                shape -= [k - 1, k - 1, k - 1]  # the number of voxels in each dimension
-                tx = np.zeros(shape=(shape[0] + 2 * k,))
-                tx[k:-k] = np.linspace(0., tbounds[0], shape[0])
-                tx[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[0])
-                # print 'tx:',tx
-                ty = np.zeros(shape=(shape[1] + 2 * k,))
-                ty[k:-k] = np.linspace(0., tbounds[1], shape[1])
-                ty[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[1])
-                # print 'ty:',ty
-                tz = np.zeros(shape=(shape[2] + 2 * k,))
-                tz[k:-k] = np.linspace(0., tbounds[2], shape[2])
-                tz[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[2])
-                # print 'tz:',tz
-                spl = None
-                shape = z.shape[0:3]
-                vv = []
-                s = s.transpose()
-                for ii in range(shape[0]):
-                    v = []
-                    for jj in range(shape[1]):
-                        spl = BSpline(tz, z[ii][jj], k)
-                        val = spl(s[2])
-                        v.append(val)
-                    v = np.array(v)
-                    spl = BSpline(ty, v, k)
-                    val = spl(s[1])
-                    vv.append(spl(s[1]))
-                vv = np.array(vv)
-                spl = BSpline(tx, vv, k)
-                spl = spl(s[0])
-                return spl
+            def G_SIM(z, verts):
+                return np.zeros(shape=(z.shape[0] * z.shape[1] * z.shape[2] * 3,))
 
+            # def TrivariateBSpline(tbounds,z,s,k=3):# z.ndim should be 4. the first 3 are the shape of the control vertices,
+            #     # ,and shape[3]  should be 3 to contain the coordinate of the vertices. Note, if the number of voxel is x,
+            #     # then the number of control points should be x + k - 1
+            #     shape = z.shape[0:3] # the number of control points
+            #     shape = np.array(shape)
+            #     shape -= [k - 1,k - 1,k - 1] # the number of voxels in each dimension
+            #     tx = np.zeros(shape=(shape[0] + 2 * k,))
+            #     tx[k:-k] = np.linspace(0.,tbounds[0],shape[0])
+            #     tx[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[0])
+            #     # print 'tx:',tx
+            #     ty = np.zeros(shape=(shape[1] + 2 * k,))
+            #     ty[k:-k] = np.linspace(0.,tbounds[1],shape[1])
+            #     ty[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[1])
+            #     # print 'ty:',ty
+            #     tz = np.zeros(shape=(shape[2] + 2 * k,))
+            #     tz[k:-k] = np.linspace(0.,tbounds[2],shape[2])
+            #     tz[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[2])
+            #     # print 'tz:',tz
+            #     spl = None
+            #     shape = z.shape[0:3]
+            #     vv = []
+            #     s = s.transpose()
+            #     for ii in range(shape[0]):
+            #         v = []
+            #         for jj in range(shape[1]):
+            #             spl = BSpline(tz,z[ii][jj],k)
+            #             val = spl(s[2])
+            #             v.append(val)
+            #         v = np.array(v)
+            #         spl = BSpline(ty,v,k)
+            #         val = spl(s[1])
+            #         vv.append(spl(s[1]))
+            #     vv = np.array(vv)
+            #     spl = BSpline(tx,vv,k)
+            #     spl = spl(s[0])
+            #     return spl
             # z = np.arange(0,5 * 100 * 3)
             # z = z.reshape((5,10,10,3))
             # tbounds = [1024,512,512]
             # spl = TrivariageBSpline(tbounds,z,[2,7,0])
             # print 'spline %s' % (spl)
-            def updateSB(tbounds, z, verts):
-                '''
-                this is a time consuming operation if len(verts) is too large
-                Note: this will change verts
-                :param tbounds:
-                :param z:
-                :param verts:
-                :return:
-                '''
-                vs = []
-                for v in verts:
-                    v += TrivariateBSpline(tbounds, z, v)
-                    vs.append(v)
-                return np.array(vs)
 
-            gridDim = (5, 5, 10, 3)
             omega_IB = .5
             omega_SSM = .5
             omega_SIM = .0
 
-            def fun(z, tbounds, SBVerts):
+            def fun(z, SBVerts):
                 verts = SBVerts.reshape((nv, 3)).copy()
                 z = z.reshape(gridDim)
-                verts = updateSB(tbounds, z, verts)
+                verts = updateSB(z, verts)
 
                 eIB = omega_IB * E_I_B(verts)
-                eSSM = omega_SSM * E_SSM(verts)
-                eSIM = omega_SIM * E_SIM(verts)
-                e = eIB + eSSM + eSIM
+                # eSSM = omega_SSM * E_SSM(verts)
+                # eSIM = omega_SIM * E_SIM(verts)
+                # e = eIB + eSSM + eSIM
+                return eIB
 
-                return e
-
-            def G_I_B_n_SSM(z, tbounds, verts, refverts):
-                SBverts = verts.copy()
-                SIverts = refverts.copy()
-
-                k = 3
-                shape = z.shape[0:3]  # the number of control points
-                shape = np.array(shape)
-                shape -= [k - 1, k - 1, k - 1]  # the number of voxels in each dimension
-                tx = np.zeros(shape=(shape[0] + 2 * k,))
-                tx[k:-k] = np.linspace(0., tbounds[0], shape[0])
-                tx[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[0])
-                # print 'tx:',tx
-                ty = np.zeros(shape=(shape[1] + 2 * k,))
-                ty[k:-k] = np.linspace(0., tbounds[1], shape[1])
-                ty[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[1])
-                # print 'ty:',ty
-                tz = np.zeros(shape=(shape[2] + 2 * k,))
-                tz[k:-k] = np.linspace(0., tbounds[2], shape[2])
-                tz[-1:-(k + 1):-1] = np.ones(shape=(k,)) * (tbounds[2])
-
-                shape = z.shape[0:3]  # the number of control points
-                Bx = []
-                for ii in range(shape[0]):
-                    c = np.zeros((shape[0],), dtype=np.float32)
-                    c[ii] = 1.
-                    spl = BSpline(tx, c, k)
-                    kp = 0
-                    bvals = np.empty((SBverts.shape[0],), dtype=np.float32)
-                    for v in SBverts:
-                        bvals[kp] = spl(v[0])
-                        kp += 1
-                    Bx.append(bvals)
-                Bx = np.array(Bx)
-                By = []
-                for ii in range(shape[1]):
-                    c = np.zeros((shape[1],), dtype=np.float32)
-                    c[ii] = 1.
-                    spl = BSpline(ty, c, k)
-                    kp = 0
-                    bvals = np.empty((SBverts.shape[0],), dtype=np.float32)
-                    for v in SBverts:
-                        bvals[kp] = spl(v[1])
-                        kp += 1
-                    By.append(bvals)
-                By = np.array(By)
-                Bz = []
-                for ii in range(shape[2]):
-                    c = np.zeros((shape[2],), dtype=np.float32)
-                    c[ii] = 1.
-                    spl = BSpline(tz, c, k)
-                    kp = 0
-                    bvals = np.empty((SBverts.shape[0],), dtype=np.float32)
-                    for v in SBverts:
-                        bvals[kp] = spl(v[2])
-                        kp += 1
-                    Bz.append(bvals)
-                Bz = np.array(Bz)
-
-                verts = updateSB(tbounds, z, verts)  # S_B
-                g = []
-                for ii in range(shape[0]):
-                    for jj in range(shape[1]):
-                        for kk in range(shape[2]):
-                            gx = 0.
-                            gy = 0.
-                            gz = 0.
-                            kp = 0
-                            for v in verts:
-                                vb = SBverts[kp]
-                                kg = (v - SIverts) * Bx[ii][kp] * By[jj][kp] * Bz[kk][kp]
-                                gx += kg[0]
-                                gy += kg[1]
-                                gz += kg[2]
-                                kp += 1
-
-                            g.append(gx)
-                            g.append(gy)
-                            g.append(gz)
-                return np.array(g)
-
-            def G_SIM(z, tbounds, verts):
-                return np.zeros(shape=(z.shape[0] * z.shape[1] * z.shape[2],))
-
-            def gradient(z, tbounds, SBVerts):
+            def gradient(z, SBVerts):
                 verts = SBVerts.reshape((nv, 3)).copy()
                 z = z.reshape(gridDim)
 
-                gIB = omega_IB * G_I_B_n_SSM(z, tbounds, verts.copy(), S_I.verts)
-                gSSM = omega_SSM * G_I_B_n_SSM(z, tbounds, verts.copy(), S_SSM.verts)
-                gSIM = omega_SIM * G_SIM(z, tbounds, verts.copy())
-                g = gIB + gSSM + gSIM
+                gIB = omega_IB * G_I_B_n_SSM(z, verts.copy(), S_I.verts)
+                # gSSM = omega_SSM * G_I_B_n_SSM(z,verts.copy(),S_SSM.verts)
+                # gSIM = omega_SIM * G_SIM(z,verts.copy())
+                # g = gIB + gSSM + gSIM
 
-                return g
-
-            tbounds = np.array(volume.pixelArray.shape)
+                return gIB
 
             if True:
                 print 'check gradient in SB optimization....'
-                graderr = opt.check_grad(fun, gradient, np.ones(gridDim), tbounds, S_B.verts.copy())
+
+                def compGrad(xk, f, epsilon):
+                    f0 = f(xk, S_B.verts)
+                    grad = np.zeros((len(xk),), float)
+                    ei = np.zeros((len(xk),), float)
+                    ii = 0
+                    jj = 0
+                    kk = 0
+
+                    def compUpdate(z):
+                        verts = S_B.verts.copy()
+                        vv = np.zeros(shape=(3, verts.shape[0]), dtype=np.float32)
+                        z = z.reshape(gridDim)
+                        for ii in range(gridDim[0]):
+                            for jj in range(gridDim[1]):
+                                for kk in range(gridDim[2]):
+                                    if ii == 1 and jj == 0 and kk == 0:
+                                        print 'Bx*By*Bz', (Bx[ii] * By[jj] * Bz[kk])[0]
+                                        print 'z[ii][jj][kk]', z[ii][jj][kk][0]
+                                    vv += (z[ii][jj][kk]).reshape(3, 1) * (Bx[ii] * By[jj] * Bz[kk])
+                        vs = verts + vv.transpose()
+                        print 'vs', vs
+                        return vs
+
+                    for k in range(len(xk)):
+                        ei[k] = 1.0
+                        d = epsilon * ei
+                        f1 = f(xk + d, S_B.verts)
+                        grad[k] = (f1 - f0) / d[k]
+                        ei[k] = 0.0
+
+                        if k % 3 == 0:
+                            print 'compGrad'
+                            print 'ii,jj,kk', ii, jj, kk
+                            print 'grad[k]', grad[k]
+                            if ii == 1 and jj == 0 and kk == 0:
+                                print 'd', d
+                                print 'f0', f0
+                                print 'f1', f1
+                                print 'update for xk'
+                                vsxk = compUpdate(xk)
+                                v1 = ((vsxk - S_I.verts) ** 2).sum()
+                                print 'update for xk + d'
+                                vsxkd = compUpdate(xk + d)
+                                v2 = ((vsxkd - S_I.verts) ** 2).sum()
+                                print v1, v2, v1 - v2
+                                print ((vsxkd - vsxk) ** 2).sum()
+                            kk += 1
+                            if kk == gridDim[2]:
+                                kk = 0
+                                jj += 1
+                                if jj == gridDim[1]:
+                                    jj = 0
+                                    ii += 1
+
+                    return grad
+
+                epsilon = 1.  # 0.001 #np.sqrt(np.finfo(float).eps)
+                zf = np.random.random(numcoords) * 1.
+                # grad = compGrad(zf, fun,epsilon)
+                # graderr = np.sqrt(np.sum((gradient(zf, S_B.verts) - grad) ** 2))
+                graderr = opt.check_grad(fun, gradient, zf, S_B.verts, **{'epsilon': epsilon})
                 print 'graderr when optimizing SB is:', graderr
 
-            nv = mesh.verts.shape[0]
+                # verts = S_B.verts.transpose()
+                # plt.figure(1)
+                # plt.plot(verts[0],'r')
+                # plt.plot(verts[1],'g')
+                # plt.plot(verts[2],'b')
+                # plt.legend(('$v_{kx}$','$v_{ky}$','$v_{kz}$'))
+                # plt.title('mesh vertex coordinates')
 
-            def callback(z, tbounds, verts):
-                verts = verts.reshape((nv, 3)).copy()
+                # plt.figure(2)
+                # plt.title('BSpline Base Funcs along X')
+                # style = ['r.','r:','r-','r-.','r--']
+                # for i in range(gridDim[0]):
+                #     x = map(BasicX[i],range(tbounds[0]))
+                #     plt.plot(x,style[i])
+                # plt.legend(('$B_0$','$B_1$','$B_2$','$B_3$','$B_4$'))
+
+                # plt.figure(3)
+                # plt.title('BSpline Base Funcs along y')
+                # style = ['g.', 'g:', 'g-', 'g-.', 'g--']
+                # for i in range(gridDim[1]):
+                #     y = map(BasicY[i], range(tbounds[1]))
+                #     plt.plot(y, style[i])
+                # plt.legend(('$B_0$', '$B_1$', '$B_2$', '$B_3$', '$B_4$'))
+                #
+                # plt.figure(4)
+                # plt.title('BSpline Base Funcs along Z')
+                # style = ['b.', 'b:', 'b-', 'b-.', 'b--']
+                # for i in range(gridDim[2]):
+                #     x = map(BasicZ[i], range(tbounds[2]))
+                #     plt.plot(x, style[i])
+                # plt.legend(('$B_0$', '$B_1$', '$B_2$', '$B_3$', '$B_4$'))
+
+                # plt.figure(5)
+                # plt.subplot(321)
+                # plt.plot(Bx[0],'r.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bx_{0}$')
+                #
+                # plt.subplot(322)
+                # plt.plot(Bx[1], 'r:')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bx_{1}$')
+                #
+                # plt.subplot(323)
+                # plt.plot(Bx[2], 'r-')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bx_{2}$')
+                #
+                # plt.subplot(324)
+                # plt.plot(Bx[3], 'r-.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bx_{3}$')
+                #
+                # plt.subplot(325)
+                # plt.plot(Bx[4], 'r--')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bx_{4}$')
+
+                # plt.figure(6)
+                # plt.plot(Bx[0], 'r.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bx_{0}$')
+
+                # plt.figure(7)
+                # plt.subplot(321)
+                # plt.plot(By[0], 'g.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$By_{0}$')
+                #
+                # plt.subplot(322)
+                # plt.plot(By[1], 'g:')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$By_{1}$')
+                #
+                # plt.subplot(323)
+                # plt.plot(By[2], 'g-')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$By_{2}$')
+                #
+                # plt.subplot(324)
+                # plt.plot(By[3], 'g-.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$By_{3}$')
+                #
+                # plt.subplot(325)
+                # plt.plot(By[4], 'g--')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{4}$')
+
+                # plt.figure(8)
+                # plt.plot(By[0], 'g.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$By_{0}$')
+
+                # plt.figure(9)
+                # plt.subplot(321)
+                # plt.plot(Bz[0], 'b.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{0}$')
+                #
+                # plt.subplot(322)
+                # plt.plot(Bz[1], 'b:')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{1}$')
+                #
+                # plt.subplot(323)
+                # plt.plot(Bz[2], 'b-')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{2}$')
+                #
+                # plt.subplot(324)
+                # plt.plot(Bz[3], 'b-.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{3}$')
+                #
+                # plt.subplot(325)
+                # plt.plot(Bz[4], 'b--')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{4}$')
+
+                # plt.figure(10)
+                # plt.plot(Bz[0], 'b.')
+                # plt.title('Vals of BSpline Base func at mesh vertices:$Bz_{0}$')
+
+                plt.show()
+                return
+
+            def callback(z):
+                '''
+                callback only accept one arguments: the variables
+                :param z:
+                :return:
+                '''
+                verts = S_B.verts.copy()
                 z = z.reshape(gridDim)
-                verts = updateSB(tbounds, z, verts)
+                verts = updateSB(z, verts)
                 global km
                 openmesh.writeOff(dirname + '/%s_registered_SB.off' % km, verts, mesh.faces)
                 km += 1
 
-            res = opt.minimize(fun, np.ones(shape=gridDim), args=(tbounds, S_B.verts.copy()), method='l-bfgs-b',
-                               jac=gradient,
-                               callback=callback, options={'maxiter': 5, 'disp': True})
-
-            S_B.verts = updateSB(tbounds, res['x'], S_B.verts)
+            res = opt.minimize(fun, np.random.random(numcoords), \
+                               args=(S_B.verts.copy()), method='l-bfgs-b', jac=gradient,
+                               callback=callback, options={'maxiter': 100, 'disp': True})
+            print 'x', res['x'].reshape(gridDim)
+            print 'success?', res['success']
+            print 'message:', res['message']
+            S_B.verts = updateSB(res['x'].reshape(gridDim), S_B.verts)
             return S_B.verts.copy()
 
         # repeat optimization until converge
-        for k in range(10):
+        for k in range(1):
             SIverts = None
             SSMverts = None
             SBverts = None

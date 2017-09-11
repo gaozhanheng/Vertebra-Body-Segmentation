@@ -6,6 +6,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="main.py" />
     <orderEntry type="module" module-name="VBSeg-DL" />
+    <orderEntry type="module" module-name="VBSeg-DL" />
+    <orderEntry type="module" module-name="SplineReconFromBiXRay" />
   </component>
   <component name="TestRunnerService">
     <option name="projectConfiguration" value="Nosetests" />

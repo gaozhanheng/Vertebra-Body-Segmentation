@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../SplineReconFromBiXRay/.idea/SplineReconFromBiXRay.iml" filepath="$PROJECT_DIR$/../SplineReconFromBiXRay/.idea/SplineReconFromBiXRay.iml" />
       <module fileurl="file://$PROJECT_DIR$/../VBSeg-DL/.idea/VBSeg-DL.iml" filepath="$PROJECT_DIR$/../VBSeg-DL/.idea/VBSeg-DL.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Vertebra-Body-Segmentation.iml" filepath="$PROJECT_DIR$/.idea/Vertebra-Body-Segmentation.iml" />
     </modules>
